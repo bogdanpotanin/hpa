@@ -185,11 +185,11 @@ NumericMatrix truncatedNormalMoment(int k = 1,
 		{
 			stop("parameter sd should be positive integer");
 		}
-		if ((x_upper.size() != n) & (x_upper[0] != 9999999999999))
+		if ((x_upper.size() != n) & (x_upper[0] != 9999999999999.1))
 		{
 			stop("vectors x_lower and x_upper should have the same length");
 		}
-		if ((x_lower.size() != n) & (x_lower[0] != -9999999999999))
+		if ((x_lower.size() != n) & (x_lower[0] != -9999999999999.1))
 		{
 			stop("vectors x_lower and x_upper should have the same length");
 		}
