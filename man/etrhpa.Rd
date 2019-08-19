@@ -31,12 +31,6 @@ by the first rows of these matrices.}
 \item{sd}{positive numeric vector of standard deviations.}
 
 \item{expectation_powers}{integer vector of random vector components powers.}
-
-\item{given_ind}{logical vector indicating wheather corresponding
-component is conditioned. By default it is a logical vector of FALSE values.}
-
-\item{omit_ind}{logical vector indicating wheather corresponding
-component is omitted. By default it is a logical vector of FALSE values.}
 }
 \value{
 This function returns numeric vector of expected powered product hermite polynomial approximations for truncated distribution.
@@ -62,11 +56,12 @@ Parameters \code{mean}, \code{sd}, \code{given_ind}, \code{omit_ind}
 should have the same length as \code{pol_degrees} parameter.
 }
 \examples{
-##Let's approximate some three truncated random variables powered product expectation for powers (3,2,1)
-##with hermite polynomial of (1,2,3) degrees which polynomial coefficients equals 1 except
-##coefficient related to x1*(x^3) polynomial element which equals 2. Also suppose that normal density related
-##mean vector equals (1.1, 1.2, 1.3) while standard deviations vector is (2.1, 2.2, 2.3). Suppose that lower and upper truncation
-##are (-1.1,-1.2,-1.3) and (1.1,1.2,1.3) correspondingly.
+##Let's approximate some three truncated random variables powered product expectation 
+##for powers (3,2,1) with hermite polynomial of (1,2,3) degrees which polynomial
+##coefficients equals 1 except coefficient related to x1*(x^3) polynomial element which
+##equals 2. Also suppose that normal density related mean vector equals (1.1, 1.2, 1.3)
+##while standard deviations vector is (2.1, 2.2, 2.3). Suppose that lower and upper 
+##truncation points are (-1.1,-1.2,-1.3) and (1.1,1.2,1.3) correspondingly.
 
 #Prepare initial values
 expectation_powers = c(3,2,1)
@@ -97,5 +92,5 @@ etrhpa(pol_coefficients = pol_coefficients, pol_degrees = pol_degrees,
 	tr_left = tr_left, tr_right = tr_right)
 }
 \references{
-A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987.
+A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
 }

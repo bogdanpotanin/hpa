@@ -10,7 +10,7 @@ hpaBinary(formula, data, K = 1L, z_mean_fixed = NA_real_,
   is_sequence = FALSE, x0 = numeric(0))
 }
 \arguments{
-\item{formula}{an object of class "formula" (or one that can be coerced to that class): 
+\item{formula}{an object of class "formula" (or one that can be coerced to that class):
 a symbolic description of the model to be fitted.}
 
 \item{data}{data frame containing the variables in the model.}
@@ -28,6 +28,9 @@ Set it to NA (default) if this parameter should be estimated rather then fixed.}
 
 \item{is_z_coef_first_fixed}{bool value indicating weather binary equation first independend variable
 coefficient should be fixed (TRUE) or estimated (FALSE).}
+
+\item{is_x0_probit}{logical; if \code{TRUE} (default) then initial points for optimization routine will be
+obtained by probit model estimated via \link[stats]{glm} function.}
 
 \item{is_sequence}{if TRUE then function calculates models with polynomial degrees from 0 to K
 each time using initial values obtained from the previous step. In this case function will
@@ -65,7 +68,7 @@ via hermite polynomial densities approximation.
 }
 \details{
 Semi-nonparametric approach has been implemented via densities
-hermite polynomial approximation.
+hermite polynomial approximation
 
 Densities hermite polynomial approximation approach has been proposed by A. Gallant and D. W. Nychka in 1987.
 The main idea is to approximate unknown distribution density with hermite polynomial of degree \code{pol_degree}. 
@@ -165,7 +168,7 @@ predict(model)
 plot(model)
 }
 \references{
-A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987.
+A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
 }
 \seealso{
 \link[hpa]{summary.hpaBinary}, \link[hpa]{predict.hpaBinary}, \link[hpa]{plot.hpaBinary},

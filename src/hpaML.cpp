@@ -16,7 +16,6 @@ using namespace RcppArmadillo;
 //' @template given_ind_Template
 //' @template omit_ind_Template
 //' @template x0_ML_Template
-//' @details 
 //' @template hpa_likelihood_details_Template
 //' @template GN_details_Template
 //' @template first_coef_Template
@@ -319,42 +318,7 @@ List hpaML(NumericMatrix x,
 	return(return_result);
 }
 
-//' Perform  log-likelihood function estimation for Phillips-Gallant-Nychka distribution at point
-//' @template x_ML_Template
-//' @template pol_degrees_Template
-//' @template tr_left_Template
-//' @template tr_right_Template
-//' @template given_ind_Template
-//' @template omit_ind_Template
-//' @template mean_Template
-//' @template sd_Template
-double hpaLnL(NumericMatrix x = NumericMatrix(1, 1), 
-	NumericVector pol_coefficients = NumericVector(0),
-	NumericVector pol_degrees = NumericVector(0), 
-	LogicalVector given_ind = LogicalVector(0),
-	LogicalVector omit_ind = LogicalVector(0),
-	NumericVector mean = NumericVector(0),
-	NumericVector sd = NumericVector(0))
-{
-	return(sum(log(dhpa(x,
-		pol_coefficients, pol_degrees,
-		given_ind, omit_ind,
-		mean, sd))));
-}
-
-//' Perform  log-likelihood function estimation for Phillips-Gallant-Nychka distribution at point
-//' @template x0_ML_Template
-//' @template x_ML_Template
-//' @template pol_coefficients_Template
-//' @template pol_degrees_Template
-//' @template given_ind_Template
-//' @template omit_ind_Template
-//' @template mean_Template
-//' @template sd_Template
-//' @param is_mimus bool indicating wheather likelihood function should be multuplied by -1.
-//' @template tr_left_Template
-//' @template tr_right_Template
-//' @details This method is adopted for optimization routine.
+//Perform log-likelihood function estimation for Phillips-Gallant-Nychka distribution at point
 double hpaLnLOptim(NumericVector x0,
 	NumericMatrix x = NumericMatrix(1, 1),
 	NumericVector pol_coefficients_ind = NumericVector(0),
@@ -392,13 +356,16 @@ double hpaLnLOptim(NumericVector x0,
 }
 
 //' Predict method for hpaML
-//' @param model Object of class "hpaML"
+//' @param object Object of class "hpaML"
 //' @template newdata_Template
 //' @return This function returns predictions based on \code{\link[hpa]{hpaML}} estimation results.
-//' @export	
-// [[Rcpp::export(predict.hpaML)]]
-NumericVector predict_ML(List model, NumericMatrix newdata = NumericMatrix(1,1)) {
-	
+//' @export
+// [[Rcpp::export]]
+NumericVector predict_hpaML(List object, NumericMatrix newdata = NumericMatrix(1,1))
+{
+
+	List model = object;
+
 	//Load additional environments
 
 	//stats environment
@@ -446,21 +413,28 @@ NumericVector predict_ML(List model, NumericMatrix newdata = NumericMatrix(1,1))
 }
 
 //' Summarizing hpaML Fits
-//' @param model Object of class "hpaML"
+//' @param object Object of class "hpaML"
 //' @return This function returns the same list as \code{\link[hpa]{hpaML}} function changing it's class to "summary.hpaML".
-//' @export	
-// [[Rcpp::export(summary.hpaML)]]
-List summary_ML(List model) {
-	List return_result = clone(model); //in order to preserve model class
+//' @export
+// [[Rcpp::export]]
+List summary_hpaML(List object)
+{
+
+	List return_result = clone(object); //in order to preserve model class
+
 	return_result.attr("class") = "summary.hpaML";
+
 	return(return_result);
 }
 
 //' Summary for hpaML output
-//' @param model Object of class "hpaML"
-//' @export	
-// [[Rcpp::export(print.summary.hpaML)]]
-void print_summary_ML(List model) {
+//' @param x Object of class "hpaML"
+//' @export
+// [[Rcpp::export]]
+void print_summary_hpaML(List x)
+{
+
+	List model = x;
 
 	//Load additional environments
 	Rcpp::Environment base_env("package:base");
@@ -504,7 +478,7 @@ void print_summary_ML(List model) {
 	Rprintf("%s", "--------------------------------------------------------------\n");
 }
 
-//' Create star vector
+// Create star vector
 StringVector starVector(NumericVector p_values)
 {
 	int n = p_values.size();
@@ -520,17 +494,17 @@ StringVector starVector(NumericVector p_values)
 				stars[i] = "***";
 			} else
 			{
-				if (0.001 < p_values[i] <= 0.01)
+				if ((0.001 < p_values[i]) & (p_values[i] <= 0.01))
 				{
 					stars[i] = "**";
 				} else
 				{
-					if (0.01 < p_values[i] <= 0.05)
+					if ((0.01 < p_values[i]) & (p_values[i] <= 0.05))
 					{
 						stars[i] = "*";
 					} else
 					{
-						if (0.05 < p_values[i] <= 0.1)
+						if ((0.05 < p_values[i]) & (0.05 < p_values[i] <= 0.1))
 						{
 							stars[i] = ".";
 						} else
@@ -552,18 +526,36 @@ StringVector starVector(NumericVector p_values)
 
 //' Calculates AIC for "hpaML" object
 //' @description This function calculates AIC for "hpaML" object
-//' @export	
-// [[Rcpp::export(AIC.hpaML)]]
-double AIC_ML(List model) {
-	double AIC = model["AIC"];
+//' @param object Object of class "hpaML"
+//' @template AIC_template
+//' @export
+// [[Rcpp::export]]
+double AIC_hpaML(List object, double k = 2)
+{
+
+	double AIC = object["AIC"];
+
+	if (k == 2)
+	{
+		return(AIC);
+	}
+
+	NumericVector x1 = object["x1"];
+
+	AIC += (k - 2) * x1.size();
+
 	return(AIC);
 }
 
 //' Calculates log-likelihood for "hpaML" object
 //' @description This function calculates log-likelihood for "hpaML" object
-//' @export	
-// [[Rcpp::export(logLik.hpaML)]]
-double logLik_ML(List model) {
-	double lnL = model["log-likelihood"];
+//' @param object Object of class "hpaML"
+//' @export
+// [[Rcpp::export]]
+double logLik_hpaML(List object)
+{
+
+	double lnL = object["log-likelihood"];
+
 	return(lnL);
 }

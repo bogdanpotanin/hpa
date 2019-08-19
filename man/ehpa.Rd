@@ -53,10 +53,11 @@ Parameters \code{mean}, \code{sd}, \code{given_ind}, \code{omit_ind}
 should have the same length as \code{pol_degrees} parameter.
 }
 \examples{
-##Let's approximate some three random variables powered product expectation for powers (3,2,1)
-##with hermite polynomial of (1,2,3) degrees which polynomial coefficients equals 1 except
-##coefficient related to x1*(x^3) polynomial element which equals 2. Also suppose that normal density related
-##mean vector equals (1.1, 1.2, 1.3) while standard deviations vector is (2.1, 2.2, 2.3).
+##Let's approximate some three random variables powered product expectation for 
+##powers (3,2,1) with hermite polynomial of (1,2,3) degrees which polynomial coefficients
+##equals 1 except coefficient related to x1*(x^3) polynomial element which equals 2.
+## Also suppose that normal density related mean vector equals (1.1, 1.2, 1.3) while
+## standard deviations vector is (2.1, 2.2, 2.3).
 
 #Prepare initial values
 expectation_powers = c(3,2,1)
@@ -101,12 +102,13 @@ ehpa(x = x,
 #Set TRUE to the first component indicating that it is omitted
 omit_ind <- c(TRUE, FALSE, FALSE)
 
-#Calculate conditional (on x2=0.5) marginal (for x3) expected powered product approximation at points x_lower and x_upper
+#Calculate conditional (on x2=0.5) marginal (for x3) expected powered 
+#product approximation at points x_lower and x_upper
 ehpa(x = x,
 	pol_coefficients = pol_coefficients, pol_degrees = pol_degrees,
 	mean = mean, sd = sd, expectation_powers = expectation_powers,
 	given_ind = given_ind, omit_ind = omit_ind)
 }
 \references{
-A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987.
+A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
 }

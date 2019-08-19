@@ -28,14 +28,20 @@ double hpaSelectionLnLOptim(Rcpp::NumericVector x0,
 	double z_sd,
 	bool is_minus);
 
-Rcpp::List predict_Selection(Rcpp::List model, 
+Rcpp::List predict_hpaSelection(Rcpp::List object, 
 	Rcpp::DataFrame newdata, 
 	std::string method, 
 	bool is_cond,
 	bool is_outcome);
 
-double AIC_Selection(Rcpp::List model);
+double AIC_hpaSelection(Rcpp::List model, double k);
 
-double logLik_Selection(Rcpp::List model);
+double logLik_hpaSelection(Rcpp::List model);
+
+Rcpp::List plot_hpaSelection(Rcpp::List x, bool is_outcome);
+
+void print_summary_hpaSelection(Rcpp::List x);
+
+Rcpp::List summary_hpaSelection(Rcpp::List object);
 
 #endif

@@ -33,18 +33,18 @@ double hpaBinaryLnLOptim(Rcpp::NumericVector x0,
 	Rcpp::NumericVector z_coef_ind,
 	bool is_minus);
 
-Rcpp::NumericVector predict_Binary(Rcpp::List model, 
+Rcpp::NumericVector predict_hpaBinary(Rcpp::List object, 
 	Rcpp::DataFrame newdata, 
 	bool is_prob);
 
-Rcpp::List summary_Binary(Rcpp::List model);
+Rcpp::List summary_hpaBinary(Rcpp::List object);
 
-void print_summary_Binary(Rcpp::List model);
+void print_summary_hpaBinary(Rcpp::List x);
 
-void plot_Binary(Rcpp::List model);
+void plot_hpaBinary(Rcpp::List x);
 
-double AIC_Binary(Rcpp::List model);
+double AIC_hpaBinary(Rcpp::List object, double k);
 
-double logLik_Binary(Rcpp::List model);
+double logLik_hpaBinary(Rcpp::List object);
 
 #endif

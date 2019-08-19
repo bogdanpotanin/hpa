@@ -63,7 +63,7 @@ via hermite polynomial densities approximation.
 }
 \details{
 Semi-nonparametric approach has been implemented via densities
-hermite polynomial approximation.
+hermite polynomial approximation
 
 Densities hermite polynomial approximation approach has been proposed by A. Gallant and D. W. Nychka in 1987.
 The main idea is to approximate unknown distribution density with hermite polynomial of degree \code{pol_degree}. 
@@ -126,7 +126,7 @@ predict(ml_result)
 ##Note that calculations may take up to a minute
 
 #Simulate 5000 realizations of three dimensional student distribution with 5 degrees of freedom
-library("MultiRNG")
+library("mvtnorm")
 cov_mat <- matrix(c(1, 0.25, -0.25, 0.25, 1, 0.25, -0.25, 0.25, 1), ncol = 3)
 x <- rmvt(n = 5000, sigma = cov_mat, df = 5)
 
@@ -213,7 +213,7 @@ predict(ml_result)
 }
 }
 \references{
-A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987.
+A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
 }
 \seealso{
 \link[hpa]{summary.hpaML}, \link[hpa]{predict.hpaML}, \link[hpa]{AIC.hpaML}, \link[hpa]{logLik.hpaML}

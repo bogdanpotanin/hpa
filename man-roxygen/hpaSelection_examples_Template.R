@@ -19,13 +19,13 @@
 #' #Estimate model parameters
 #' model <- hpaSelection(selection = lfp ~ age + I(age^2) + I(log(faminc)) + educ + kids,
 #'		outcome = log(wage) ~exper + I(exper ^ 2) + educ + city,
-#'		z_K = 1, y_K = 1, data = h)
+#'		z_K = 1, y_K = 2, data = h)
 #' summary(model)
 #' 
 #' #Plot outcome equation random errorrs density
-#' plot(model,TRUE)
+#' plot(model,is_outcome = TRUE)
 #' #Plot selection equation random errorrs density
-#' plot(model,FALSE)
+#' plot(model,is_outcome = FALSE)
 #' }
 #' 
 #' ##Estimate semi-nonparametric sample selection model
@@ -80,6 +80,6 @@
 #'
 #' #Get conditional predictions for selection equation
 #' #Note that for z=0 these predictions are NA
-#' predict(model,is_cond = TRUE, is_outcome = FALSE)
+#' predict(model, is_cond = TRUE, is_outcome = FALSE)
 #' #Get unconditional predictions for selection equation
-#' predict(model,is_cond = FALSE, is_outcome = FALSE)
+#' predict(model, is_cond = FALSE, is_outcome = FALSE)

@@ -19,8 +19,9 @@ using namespace RcppArmadillo;
 //' @template z_constant_fixed_Template
 //' @template z_coef_first_fixed_Template
 //' @template x0_binary_Template
+//' @param is_x0_probit logical; if \code{TRUE} (default) then initial points for optimization routine will be
+//' obtained by probit model estimated via \link[stats]{glm} function.
 //' @template is_sequence_Template
-//' @details
 //' @template hpa_likelihood_details_Template
 //' @template GN_details_Template
 //' @template first_coef_Template
@@ -65,7 +66,8 @@ List hpaBinary(Rcpp::Formula formula,
 	bool is_z_coef_first_fixed = true,
 	bool is_x0_probit = true,
 	bool is_sequence = false,
-	NumericVector x0 = NumericVector(0)) {
+	NumericVector x0 = NumericVector(0)) 
+{
 
 	//Load additional environments
 
@@ -582,7 +584,7 @@ List hpaBinary(Rcpp::Formula formula,
 	return(return_result);
 }
 
-//' Perform  log-likelihood function estimation for phillips-gallant-nychka distribution at point
+// Perform semi-nonparametric log-likelihood function estimation for binary choice model
 double hpaBinaryLnLOptim(NumericVector x0,
 	List is_List,
 	arma::vec z_1,
@@ -705,15 +707,18 @@ double hpaBinaryLnLOptim(NumericVector x0,
 }
 
 //' Predict method for hpaBinary
-//' @param model Object of class "hpaBinary"
+//' @param object Object of class "hpaBinary"
 //' @template newdata_Template
 //' @param is_prob logical; if TRUE (default) then function returns predicted probabilities. Otherwise latent variable
 //' (single index) estimates will be returned.
 //' @return This function returns predicted probabilities based on \code{\link[hpa]{hpaBinary}} estimation results.
-//' @export	
-// [[Rcpp::export(predict.hpaBinary)]]
-NumericVector predict_Binary(List model, DataFrame newdata = R_NilValue, bool is_prob = true)
+//' @export
+// [[Rcpp::export]]
+NumericVector predict_hpaBinary(List object, DataFrame newdata = R_NilValue, bool is_prob = true)
 {
+
+	List model = object;
+
 	//Add additional environments
 
 	Rcpp::Environment stats_env("package:stats");
@@ -841,21 +846,28 @@ NumericVector predict_Binary(List model, DataFrame newdata = R_NilValue, bool is
 }
 
 //' Summarizing hpaBinary Fits
-//' @param model Object of class "hpaBinary"
+//' @param object Object of class "hpaBinary"
 //' @return This function returns the same list as \code{\link[hpa]{hpaBinary}} function changing it's class to "summary.hpaBinary".
-//' @export	
-// [[Rcpp::export(summary.hpaBinary)]]
-List summary_Binary(List model) {
-	List return_result = clone(model); //in order to preserve model class
+//' @export
+// [[Rcpp::export]]
+List summary_hpaBinary(List object)
+{
+
+	List return_result = clone(object); //in order to preserve model class
+
 	return_result.attr("class") = "summary.hpaBinary";
+
 	return(return_result);
 }
 
 //' Summary for hpaBinary output
-//' @param model Object of class "hpaML"
+//' @param x Object of class "hpaML"
 //' @export	
-// [[Rcpp::export(print.summary.hpaBinary)]]
-void print_summary_Binary(List model) {
+// [[Rcpp::export]]
+void print_summary_hpaBinary(List x)
+{
+
+	List model = x;
 
 	//Load additional environments
 	Rcpp::Environment base_env("package:base");
@@ -982,10 +994,12 @@ void print_summary_Binary(List model) {
 }
 
 //' Plot hpaBinary random errors approximated density
-//' @param model Object of class "hpaBinary"
+//' @param x Object of class "hpaBinary"
 //' @export	
-// [[Rcpp::export(plot.hpaBinary)]]
-void plot_Binary(List model) {
+// [[Rcpp::export]]
+void plot_hpaBinary(List x) {
+
+	List model = x;
 
 	//Load additional environments
 	Rcpp::Environment base_env("package:base");
@@ -1014,19 +1028,19 @@ void plot_Binary(List model) {
 
 	double precise = (plot_max - plot_min) / n;
 
-	NumericMatrix x = NumericMatrix(n, 1);
-	x(0, 0) = plot_min;
+	NumericMatrix x_matr = NumericMatrix(n, 1);
+	x_matr(0, 0) = plot_min;
 	
 	for (int i = 1; i < n; i++)
 	{
-		x(i, 0) = x(i - 1, 0) + precise;
+		x_matr(i, 0) = x_matr(i - 1, 0) + precise;
 	}
 
-	NumericVector x_vec = x(_, 0);
+	NumericVector x_vec = x_matr(_, 0);
 
 	//calculate densities
 
-	NumericVector den = dhpa(x,
+	NumericVector den = dhpa(x_matr,
 		pol_coefficients, pol_degrees,
 		LogicalVector::create(false),
 		LogicalVector::create(false),
@@ -1050,18 +1064,36 @@ void plot_Binary(List model) {
 
 //' Calculates AIC for "hpaBinary" object
 //' @description This function calculates AIC for "hpaBinary" object
+//' @param object Object of class "hpaBinary"
+//' @template AIC_Template
 //' @export	
-// [[Rcpp::export(AIC.hpaBinary)]]
-double AIC_Binary(List model) {
-	double AIC = model["AIC"];
+// [[Rcpp::export]]
+double AIC_hpaBinary(List object, double k = 2)
+{
+	
+	double AIC = object["AIC"];
+
+	if (k == 2)
+	{
+		return(AIC);
+	}
+
+	NumericVector x1 = object["x1"];
+
+	AIC += (k - 2) * x1.size();
+
 	return(AIC);
 }
 
 //' Calculates log-likelihood for "hpaBinary" object
 //' @description This function calculates log-likelihood for "hpaBinary" object
+//' @param object Object of class "hpaBinary"
 //' @export	
-// [[Rcpp::export(logLik.hpaBinary)]]
-double logLik_Binary(List model) {
-	double lnL = model["log-likelihood"];
+// [[Rcpp::export]]
+double logLik_hpaBinary(List object) 
+{
+
+	double lnL = object["log-likelihood"];
+
 	return(lnL);
 }

@@ -22,10 +22,10 @@ a symbolic description of the outcome equation form.}
 
 \item{pol_elements}{number of conditional expectation approximating terms for Newey method.}
 
+\item{is_Newey}{logical; if TRUE then returns only Newey's method estimation results (default value is FALSE).}
+
 \item{x0}{numeric vector of optimization routine initial values.
 Note that \code{x0=c(pol_coefficients[-1], mean, sd, z_coef, y_coef)}.}
-
-\item{logical;}{if TRUE then returns only Newey's method estimation results (default value is FALSE).}
 }
 \value{
 This function returns an object of class "hpaSelection".\cr \cr
@@ -79,7 +79,7 @@ via hermite polynomial densities approximation.
 }
 \details{
 Semi-nonparametric approach has been implemented via densities
-hermite polynomial approximation.
+hermite polynomial approximation
 
 Densities hermite polynomial approximation approach has been proposed by A. Gallant and D. W. Nychka in 1987.
 The main idea is to approximate unknown distribution density with hermite polynomial of degree \code{pol_degree}. 
@@ -137,13 +137,13 @@ h = data.frame("kids" = as.numeric(Mroz87$kids5 + Mroz87$kids618 > 0),
 #Estimate model parameters
 model <- hpaSelection(selection = lfp ~ age + I(age^2) + I(log(faminc)) + educ + kids,
 	outcome = log(wage) ~exper + I(exper ^ 2) + educ + city,
-	z_K = 1, y_K = 1, data = h)
+	z_K = 1, y_K = 2, data = h)
 summary(model)
 
 #Plot outcome equation random errorrs density
-plot(model,TRUE)
+plot(model,is_outcome = TRUE)
 #Plot selection equation random errorrs density
-plot(model,FALSE)
+plot(model,is_outcome = FALSE)
 }
 
 ##Estimate semi-nonparametric sample selection model
@@ -182,7 +182,7 @@ names(h) <- c("z", "y", "x1", "x2", "x3")
 #Estimate parameters
 model <- hpaSelection(selection = z ~ x1 + x2, 
                       outcome = y ~ x1 + x3,
-                      data = h, z_K = 2, y_K = 2)
+                      data = h, z_K = 1, y_K = 2)
 summary(model)
 
 #Get conditional predictions for outcome equation
@@ -198,12 +198,12 @@ model_pred_u$y
 
 #Get conditional predictions for selection equation
 #Note that for z=0 these predictions are NA
-predict(model,is_cond = TRUE, is_outcome = FALSE)
+predict(model, is_cond = TRUE, is_outcome = FALSE)
 #Get unconditional predictions for selection equation
-predict(model,is_cond = FALSE, is_outcome = FALSE)
+predict(model, is_cond = FALSE, is_outcome = FALSE)
 }
 \references{
-A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987.
+A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
 
 W.K Newey. Two-step series estimation of sample selection models. \emph{The Econometrics Journal}, 12(s1): S217-229, 2009.
 

@@ -11,7 +11,7 @@
 \details{
 Densities hermite polynomial approximation approach has been proposed by A. Gallant and D. W. Nychka in 1987. The main idea is to approximate unknown distribution density with hermite polynomial. In this framework hermite polynomial represents adjusted (to insure integration to 1) product of squared polynomial and normal distribution densities. This package provides functions allowing to use this approach and some related semi-nonparametric models.
 
-Functions starting with single letter and ending on "hpa" provide hermite polynomial approximations itself. The letters are "d", "p", "i" and "e". Letter "d" states for joint density so function \code{\link[hpa]{dhpa}} allows to approximate joint densities with hermite polynomials. Similary functions starting with letters "p", "i", and "e" indicate methods that allow to calculate cumulative distribution function (\code{\link[hpa]{phpa}}), interaval distribution function (\code{\link[hpa]{ihpa}}) and expected value of random's vector components product (\code{\link[hpa]{ehpa}}) approximations. If these letters follow "tr" postfix it means that this functions provide truncated distribution approximation tools. For example function \code{\link[hpa]{dtrhpa}} allows to approximate truncated joint densities with hermite polynomials. The other two truncated distributions approximating functions are \code{\link[hpa]{itrhpa}} and \code{\link[hpa]{etrhpa}}. Note that all these functions (except \code{\link[hpa]{etrhpa}}) are vectorized respect to some of their arguments and allow to approximate conditional and marginal distributions too.
+Functions starting with single letter and ending on "hpa" provide hermite polynomial approximations itself. The letters are "d", "p", "i" and "e". Letter "d" states for joint density so function \code{\link[hpa]{dhpa}} allows to approximate joint densities with hermite polynomials. Similary functions starting with letters "p", "i", and "e" indicate methods that allow to calculate cumulative distribution function (\code{\link[hpa]{phpa}}), interaval distribution function (\code{\link[hpa]{ihpa}}) and expected value of random's vector components product (\code{\link[hpa]{ehpa}}) approximations. If these letters follow "tr" postfix it means that this functions provide truncated distribution approximation tools. For example, function \code{\link[hpa]{dtrhpa}} allows to approximate truncated joint densities with hermite polynomials. The other two truncated distributions approximating functions are \code{\link[hpa]{itrhpa}} and \code{\link[hpa]{etrhpa}}. Note that all these functions (except \code{\link[hpa]{etrhpa}}) are vectorized respect to some of their arguments and allow to approximate conditional and marginal distributions too.
 
 In order to perform semi-nonparametric maximum likelihood estimation based on hermite polynomial approximation please use function \code{\link[hpa]{hpaML}}. Functions \code{\link[hpa]{hpaBinary}} and \code{\link[hpa]{hpaSelection}} allows to estimate semi-nonparametric single index binary choice and sample selection models correspondlingly.
 
@@ -26,7 +26,7 @@ Potanin Bogdan, bogdanpotanin@gmail.com.
 Maintainer: Potanin Bogdan <bogdanpotanin@gmail.com>
 }
 \references{
-Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987.
+Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
 }
 \keyword{ package }
 \seealso{
@@ -36,8 +36,9 @@ Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emp
   \dontrun{
 ##Let's approximate some three random variables joint density function at point (0,1, 0.2, 0.3)
 ##with hermite polynomial of (1,2,3) degrees which polynomial coefficients equals 1 except
-##coefficient related to x1*(x^3) polynomial element which equals 2. Also suppose that normal density related
-##mean vector equals (1.1, 1.2, 1.3) while standard deviations vector is (2.1, 2.2, 2.3).
+##coefficient related to x1*(x^3) polynomial element which equals 2.
+##Also suppose that normal density related mean vector equals (1.1, 1.2, 1.3) while
+##standard deviations vector is (2.1, 2.2, 2.3).
 
 #Prepare initial values
 x <- matrix(c(0.1, 0.2, 0.3), nrow=1)

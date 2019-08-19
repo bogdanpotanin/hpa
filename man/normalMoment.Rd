@@ -47,4 +47,5 @@ normalMoment(k = 5, mean = 3, sd = 5)
 
 #(0-5)-th moments
 normalMoment(k = 5, mean = 3, sd = 5, return_all_moments = TRUE)
+
 }

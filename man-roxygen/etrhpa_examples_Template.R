@@ -1,9 +1,10 @@
 #' @examples
-#' ##Let's approximate some three truncated random variables powered product expectation for powers (3,2,1)
-#' ##with hermite polynomial of (1,2,3) degrees which polynomial coefficients equals 1 except
-#' ##coefficient related to x1*(x^3) polynomial element which equals 2. Also suppose that normal density related
-#' ##mean vector equals (1.1, 1.2, 1.3) while standard deviations vector is (2.1, 2.2, 2.3). Suppose that lower and upper truncation
-#' ##are (-1.1,-1.2,-1.3) and (1.1,1.2,1.3) correspondingly.
+#' ##Let's approximate some three truncated random variables powered product expectation 
+#' ##for powers (3,2,1) with hermite polynomial of (1,2,3) degrees which polynomial
+#' ##coefficients equals 1 except coefficient related to x1*(x^3) polynomial element which
+#' ##equals 2. Also suppose that normal density related mean vector equals (1.1, 1.2, 1.3)
+#' ##while standard deviations vector is (2.1, 2.2, 2.3). Suppose that lower and upper 
+#' ##truncation points are (-1.1,-1.2,-1.3) and (1.1,1.2,1.3) correspondingly.
 #' 
 #' #Prepare initial values
 #' expectation_powers = c(3,2,1)

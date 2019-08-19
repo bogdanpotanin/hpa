@@ -51,11 +51,12 @@ Parameters \code{mean}, \code{sd}, \code{given_ind}, \code{omit_ind}
 should have the same length as \code{pol_degrees} parameter.
 }
 \examples{
-##Let's approximate some three random variables joint interval distribution function (idf) 
+##Let's approximate some three random variables joint interval distribution function (idf)
 ##at lower and upper points (0,1, 0.2, 0.3) and (0,4, 0.5, 0.6) correspondingly
 ##with hermite polynomial of (1,2,3) degrees which polynomial coefficients equals 1 except
-##coefficient related to x1*(x^3) polynomial element which equals 2. Also suppose that normal density related
-##mean vector equals (1.1, 1.2, 1.3) while standard deviations vector is (2.1, 2.2, 2.3).
+##coefficient related to x1*(x^3) polynomial element which equals 2.
+##Also suppose that normal density related mean vector equals (1.1, 1.2, 1.3) while
+##standard deviations vector is (2.1, 2.2, 2.3).
 
 ##Prepare initial values
 x_lower <- matrix(c(0.1, 0.2, 0.3), nrow=1)
@@ -110,5 +111,5 @@ ihpa(x_lower = x_lower, x_upper = x_upper,
 	given_ind = given_ind, omit_ind = omit_ind)
 }
 \references{
-A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987.
+A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
 }

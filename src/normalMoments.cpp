@@ -28,6 +28,7 @@ using namespace RcppArmadillo;
 //' 
 //' #(0-5)-th moments
 //' normalMoment(k = 5, mean = 3, sd = 5, return_all_moments = TRUE)
+//'
 //' @export
 // [[Rcpp::export]]
 NumericMatrix normalMoment(int k = 0, 

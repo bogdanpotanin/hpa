@@ -10,10 +10,10 @@ Description: This package provides functions to calculate conditional marginal d
   Function hpaML provides semi-nonparametric maximum likelihood estimation procedure based on hermite polynomial approximation.
   Functions hpaBinary provides single index binary choice model estimation procedure based on hermite polynomial approximation.
   Functions hpaSelection provides sample selection model estimation procedure based on hermite polynomial approximation.
-License: GPL 3
+License: GPL-3
 Imports: Rcpp (>= 1.0.1)
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1
 Encoding: UTF-8
-Suggests: knitr, rmarkdown, ggplot2
+Suggests: knitr, rmarkdown, ggplot2, mvtnorm, titanic
 VignetteBuilder: knitr

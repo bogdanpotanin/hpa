@@ -1,3 +1,6 @@
+benchmark
+src/.gitignore
+man-roxygen
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^doc$

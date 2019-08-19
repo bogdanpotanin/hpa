@@ -26,69 +26,70 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// predict_Binary
-NumericVector predict_Binary(List model, DataFrame newdata, bool is_prob);
-RcppExport SEXP _hpa_predict_Binary(SEXP modelSEXP, SEXP newdataSEXP, SEXP is_probSEXP) {
+// predict_hpaBinary
+NumericVector predict_hpaBinary(List object, DataFrame newdata, bool is_prob);
+RcppExport SEXP _hpa_predict_hpaBinary(SEXP objectSEXP, SEXP newdataSEXP, SEXP is_probSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type newdata(newdataSEXP);
     Rcpp::traits::input_parameter< bool >::type is_prob(is_probSEXP);
-    rcpp_result_gen = Rcpp::wrap(predict_Binary(model, newdata, is_prob));
+    rcpp_result_gen = Rcpp::wrap(predict_hpaBinary(object, newdata, is_prob));
     return rcpp_result_gen;
 END_RCPP
 }
-// summary_Binary
-List summary_Binary(List model);
-RcppExport SEXP _hpa_summary_Binary(SEXP modelSEXP) {
+// summary_hpaBinary
+List summary_hpaBinary(List object);
+RcppExport SEXP _hpa_summary_hpaBinary(SEXP objectSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(summary_Binary(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    rcpp_result_gen = Rcpp::wrap(summary_hpaBinary(object));
     return rcpp_result_gen;
 END_RCPP
 }
-// print_summary_Binary
-void print_summary_Binary(List model);
-RcppExport SEXP _hpa_print_summary_Binary(SEXP modelSEXP) {
+// print_summary_hpaBinary
+void print_summary_hpaBinary(List x);
+RcppExport SEXP _hpa_print_summary_hpaBinary(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    print_summary_Binary(model);
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    print_summary_hpaBinary(x);
     return R_NilValue;
 END_RCPP
 }
-// plot_Binary
-void plot_Binary(List model);
-RcppExport SEXP _hpa_plot_Binary(SEXP modelSEXP) {
+// plot_hpaBinary
+void plot_hpaBinary(List x);
+RcppExport SEXP _hpa_plot_hpaBinary(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    plot_Binary(model);
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    plot_hpaBinary(x);
     return R_NilValue;
 END_RCPP
 }
-// AIC_Binary
-double AIC_Binary(List model);
-RcppExport SEXP _hpa_AIC_Binary(SEXP modelSEXP) {
+// AIC_hpaBinary
+double AIC_hpaBinary(List object, double k);
+RcppExport SEXP _hpa_AIC_hpaBinary(SEXP objectSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(AIC_Binary(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    Rcpp::traits::input_parameter< double >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(AIC_hpaBinary(object, k));
     return rcpp_result_gen;
 END_RCPP
 }
-// logLik_Binary
-double logLik_Binary(List model);
-RcppExport SEXP _hpa_logLik_Binary(SEXP modelSEXP) {
+// logLik_hpaBinary
+double logLik_hpaBinary(List object);
+RcppExport SEXP _hpa_logLik_hpaBinary(SEXP objectSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(logLik_Binary(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    rcpp_result_gen = Rcpp::wrap(logLik_hpaBinary(object));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -109,58 +110,59 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// predict_ML
-NumericVector predict_ML(List model, NumericMatrix newdata);
-RcppExport SEXP _hpa_predict_ML(SEXP modelSEXP, SEXP newdataSEXP) {
+// predict_hpaML
+NumericVector predict_hpaML(List object, NumericMatrix newdata);
+RcppExport SEXP _hpa_predict_hpaML(SEXP objectSEXP, SEXP newdataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type newdata(newdataSEXP);
-    rcpp_result_gen = Rcpp::wrap(predict_ML(model, newdata));
+    rcpp_result_gen = Rcpp::wrap(predict_hpaML(object, newdata));
     return rcpp_result_gen;
 END_RCPP
 }
-// summary_ML
-List summary_ML(List model);
-RcppExport SEXP _hpa_summary_ML(SEXP modelSEXP) {
+// summary_hpaML
+List summary_hpaML(List object);
+RcppExport SEXP _hpa_summary_hpaML(SEXP objectSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(summary_ML(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    rcpp_result_gen = Rcpp::wrap(summary_hpaML(object));
     return rcpp_result_gen;
 END_RCPP
 }
-// print_summary_ML
-void print_summary_ML(List model);
-RcppExport SEXP _hpa_print_summary_ML(SEXP modelSEXP) {
+// print_summary_hpaML
+void print_summary_hpaML(List x);
+RcppExport SEXP _hpa_print_summary_hpaML(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    print_summary_ML(model);
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    print_summary_hpaML(x);
     return R_NilValue;
 END_RCPP
 }
-// AIC_ML
-double AIC_ML(List model);
-RcppExport SEXP _hpa_AIC_ML(SEXP modelSEXP) {
+// AIC_hpaML
+double AIC_hpaML(List object, double k);
+RcppExport SEXP _hpa_AIC_hpaML(SEXP objectSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(AIC_ML(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    Rcpp::traits::input_parameter< double >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(AIC_hpaML(object, k));
     return rcpp_result_gen;
 END_RCPP
 }
-// logLik_ML
-double logLik_ML(List model);
-RcppExport SEXP _hpa_logLik_ML(SEXP modelSEXP) {
+// logLik_hpaML
+double logLik_hpaML(List object);
+RcppExport SEXP _hpa_logLik_hpaML(SEXP objectSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(logLik_ML(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    rcpp_result_gen = Rcpp::wrap(logLik_hpaML(object));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -308,73 +310,74 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// predict_Selection
-List predict_Selection(List model, DataFrame newdata, std::string method, bool is_cond, bool is_outcome);
-RcppExport SEXP _hpa_predict_Selection(SEXP modelSEXP, SEXP newdataSEXP, SEXP methodSEXP, SEXP is_condSEXP, SEXP is_outcomeSEXP) {
+// predict_hpaSelection
+List predict_hpaSelection(List object, DataFrame newdata, std::string method, bool is_cond, bool is_outcome);
+RcppExport SEXP _hpa_predict_hpaSelection(SEXP objectSEXP, SEXP newdataSEXP, SEXP methodSEXP, SEXP is_condSEXP, SEXP is_outcomeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type newdata(newdataSEXP);
     Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
     Rcpp::traits::input_parameter< bool >::type is_cond(is_condSEXP);
     Rcpp::traits::input_parameter< bool >::type is_outcome(is_outcomeSEXP);
-    rcpp_result_gen = Rcpp::wrap(predict_Selection(model, newdata, method, is_cond, is_outcome));
+    rcpp_result_gen = Rcpp::wrap(predict_hpaSelection(object, newdata, method, is_cond, is_outcome));
     return rcpp_result_gen;
 END_RCPP
 }
-// summary_Selection
-List summary_Selection(List model);
-RcppExport SEXP _hpa_summary_Selection(SEXP modelSEXP) {
+// summary_hpaSelection
+List summary_hpaSelection(List object);
+RcppExport SEXP _hpa_summary_hpaSelection(SEXP objectSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(summary_Selection(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    rcpp_result_gen = Rcpp::wrap(summary_hpaSelection(object));
     return rcpp_result_gen;
 END_RCPP
 }
-// print_summary_Selection
-void print_summary_Selection(List model);
-RcppExport SEXP _hpa_print_summary_Selection(SEXP modelSEXP) {
+// print_summary_hpaSelection
+void print_summary_hpaSelection(List x);
+RcppExport SEXP _hpa_print_summary_hpaSelection(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    print_summary_Selection(model);
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    print_summary_hpaSelection(x);
     return R_NilValue;
 END_RCPP
 }
-// plot_Selection
-List plot_Selection(List model, bool is_outcome);
-RcppExport SEXP _hpa_plot_Selection(SEXP modelSEXP, SEXP is_outcomeSEXP) {
+// plot_hpaSelection
+List plot_hpaSelection(List x, bool is_outcome);
+RcppExport SEXP _hpa_plot_hpaSelection(SEXP xSEXP, SEXP is_outcomeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
     Rcpp::traits::input_parameter< bool >::type is_outcome(is_outcomeSEXP);
-    rcpp_result_gen = Rcpp::wrap(plot_Selection(model, is_outcome));
+    rcpp_result_gen = Rcpp::wrap(plot_hpaSelection(x, is_outcome));
     return rcpp_result_gen;
 END_RCPP
 }
-// AIC_Selection
-double AIC_Selection(List model);
-RcppExport SEXP _hpa_AIC_Selection(SEXP modelSEXP) {
+// AIC_hpaSelection
+double AIC_hpaSelection(List object, double k);
+RcppExport SEXP _hpa_AIC_hpaSelection(SEXP objectSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(AIC_Selection(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    Rcpp::traits::input_parameter< double >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(AIC_hpaSelection(object, k));
     return rcpp_result_gen;
 END_RCPP
 }
-// logLik_Selection
-double logLik_Selection(List model);
-RcppExport SEXP _hpa_logLik_Selection(SEXP modelSEXP) {
+// logLik_hpaSelection
+double logLik_hpaSelection(List object);
+RcppExport SEXP _hpa_logLik_hpaSelection(SEXP objectSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type model(modelSEXP);
-    rcpp_result_gen = Rcpp::wrap(logLik_Selection(model));
+    Rcpp::traits::input_parameter< List >::type object(objectSEXP);
+    rcpp_result_gen = Rcpp::wrap(logLik_hpaSelection(object));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -441,18 +444,18 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_hpa_hpaBinary", (DL_FUNC) &_hpa_hpaBinary, 10},
-    {"_hpa_predict_Binary", (DL_FUNC) &_hpa_predict_Binary, 3},
-    {"_hpa_summary_Binary", (DL_FUNC) &_hpa_summary_Binary, 1},
-    {"_hpa_print_summary_Binary", (DL_FUNC) &_hpa_print_summary_Binary, 1},
-    {"_hpa_plot_Binary", (DL_FUNC) &_hpa_plot_Binary, 1},
-    {"_hpa_AIC_Binary", (DL_FUNC) &_hpa_AIC_Binary, 1},
-    {"_hpa_logLik_Binary", (DL_FUNC) &_hpa_logLik_Binary, 1},
+    {"_hpa_predict_hpaBinary", (DL_FUNC) &_hpa_predict_hpaBinary, 3},
+    {"_hpa_summary_hpaBinary", (DL_FUNC) &_hpa_summary_hpaBinary, 1},
+    {"_hpa_print_summary_hpaBinary", (DL_FUNC) &_hpa_print_summary_hpaBinary, 1},
+    {"_hpa_plot_hpaBinary", (DL_FUNC) &_hpa_plot_hpaBinary, 1},
+    {"_hpa_AIC_hpaBinary", (DL_FUNC) &_hpa_AIC_hpaBinary, 2},
+    {"_hpa_logLik_hpaBinary", (DL_FUNC) &_hpa_logLik_hpaBinary, 1},
     {"_hpa_hpaML", (DL_FUNC) &_hpa_hpaML, 7},
-    {"_hpa_predict_ML", (DL_FUNC) &_hpa_predict_ML, 2},
-    {"_hpa_summary_ML", (DL_FUNC) &_hpa_summary_ML, 1},
-    {"_hpa_print_summary_ML", (DL_FUNC) &_hpa_print_summary_ML, 1},
-    {"_hpa_AIC_ML", (DL_FUNC) &_hpa_AIC_ML, 1},
-    {"_hpa_logLik_ML", (DL_FUNC) &_hpa_logLik_ML, 1},
+    {"_hpa_predict_hpaML", (DL_FUNC) &_hpa_predict_hpaML, 2},
+    {"_hpa_summary_hpaML", (DL_FUNC) &_hpa_summary_hpaML, 1},
+    {"_hpa_print_summary_hpaML", (DL_FUNC) &_hpa_print_summary_hpaML, 1},
+    {"_hpa_AIC_hpaML", (DL_FUNC) &_hpa_AIC_hpaML, 2},
+    {"_hpa_logLik_hpaML", (DL_FUNC) &_hpa_logLik_hpaML, 1},
     {"_hpa_dhpa", (DL_FUNC) &_hpa_dhpa, 7},
     {"_hpa_phpa", (DL_FUNC) &_hpa_phpa, 7},
     {"_hpa_ihpa", (DL_FUNC) &_hpa_ihpa, 8},
@@ -461,12 +464,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_hpa_dtrhpa", (DL_FUNC) &_hpa_dtrhpa, 9},
     {"_hpa_itrhpa", (DL_FUNC) &_hpa_itrhpa, 10},
     {"_hpa_hpaSelection", (DL_FUNC) &_hpa_hpaSelection, 8},
-    {"_hpa_predict_Selection", (DL_FUNC) &_hpa_predict_Selection, 5},
-    {"_hpa_summary_Selection", (DL_FUNC) &_hpa_summary_Selection, 1},
-    {"_hpa_print_summary_Selection", (DL_FUNC) &_hpa_print_summary_Selection, 1},
-    {"_hpa_plot_Selection", (DL_FUNC) &_hpa_plot_Selection, 2},
-    {"_hpa_AIC_Selection", (DL_FUNC) &_hpa_AIC_Selection, 1},
-    {"_hpa_logLik_Selection", (DL_FUNC) &_hpa_logLik_Selection, 1},
+    {"_hpa_predict_hpaSelection", (DL_FUNC) &_hpa_predict_hpaSelection, 5},
+    {"_hpa_summary_hpaSelection", (DL_FUNC) &_hpa_summary_hpaSelection, 1},
+    {"_hpa_print_summary_hpaSelection", (DL_FUNC) &_hpa_print_summary_hpaSelection, 1},
+    {"_hpa_plot_hpaSelection", (DL_FUNC) &_hpa_plot_hpaSelection, 2},
+    {"_hpa_AIC_hpaSelection", (DL_FUNC) &_hpa_AIC_hpaSelection, 2},
+    {"_hpa_logLik_hpaSelection", (DL_FUNC) &_hpa_logLik_hpaSelection, 1},
     {"_hpa_normalMoment", (DL_FUNC) &_hpa_normalMoment, 5},
     {"_hpa_truncatedNormalMoment", (DL_FUNC) &_hpa_truncatedNormalMoment, 12},
     {"_hpa_polynomialIndex", (DL_FUNC) &_hpa_polynomialIndex, 1},

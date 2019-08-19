@@ -1,10 +1,11 @@
 #' @examples
-#' ##Let's approximate some three truncated random variables joint interval distribution function at lower and upper points 
-#' ##(0,1, 0.2, 0.3) and  (0,4, 0.5, 0.6) correspondingly
+#' ##Let's approximate some three truncated random variables joint interval distribution function
+#' ##at lower and upper points (0,1, 0.2, 0.3) and  (0,4, 0.5, 0.6) correspondingly
 #' ##with hermite polynomial of (1,2,3) degrees which polynomial coefficients equals 1 except
-#' ##coefficient related to x1*(x^3) polynomial element which equals 2. Also suppose that normal density related
-#' ##mean vector equals (1.1, 1.2, 1.3) while standard deviations vector is (2.1, 2.2, 2.3).
-#' ##Suppose that lower and upper truncation are (-1.1,-1.2,-1.3) and (1.1,1.2,1.3) correspondingly.
+#' ##coefficient related to x1*(x^3) polynomial element which equals 2. Also suppose that normal
+#' ##density related mean vector equals (1.1, 1.2, 1.3) while standard deviations vector is
+#' ##(2.1, 2.2, 2.3). Suppose that lower and upper truncation are (-1.1,-1.2,-1.3) and
+#' ##(1.1,1.2,1.3) correspondingly.
 #' 
 #' #Prepare initial values
 #'	x_lower <- matrix(c(0.1, 0.2, 0.3), nrow=1)

@@ -5,9 +5,11 @@
 #include "polynomialIndex.h"
 
 #include <RcppArmadillo.h>
+
 using namespace RcppArmadillo;
 
 // [[Rcpp::depends(RcppArmadillo)]]
+
 
 //' Perform semi-nonparametric selection model estimation
 //' @description This function performs semi-nonparametric selection model estimation
@@ -20,9 +22,8 @@ using namespace RcppArmadillo;
 //' @template z_K_Template
 //' @template y_K_Template
 //' @param pol_elements number of conditional expectation approximating terms for Newey method.
-//' @param logical; if TRUE then returns only Newey's method estimation results (default value is FALSE).
+//' @param is_Newey logical; if TRUE then returns only Newey's method estimation results (default value is FALSE).
 //' @template x0_selection_Template
-//' @details
 //' @template hpa_likelihood_details_Template
 //' @template GN_details_Template
 //' @template first_coef_Template
@@ -266,8 +267,6 @@ Rcpp::List hpaSelection(Rcpp::Formula selection,
 		//unobservable
 
 	arma::vec y_0 = as<arma::vec>(y[z == 0]);
-
-	int n_0 = y_0.size();
 
 	arma::mat y_d_0 = (as<arma::mat>(y_d)).rows(arma::find(z_arma == 0));
 
@@ -644,7 +643,7 @@ Rcpp::List hpaSelection(Rcpp::Formula selection,
 	return(return_result);
 }
 
-//' Perform log-likelihood function estimation for selection model
+// Perform log-likelihood function estimation for selection model
 double hpaSelectionLnLOptim(NumericVector x0,
 	List ind_List,
 	arma::vec y_1,
@@ -745,6 +744,7 @@ double hpaSelectionLnLOptim(NumericVector x0,
 
 //' Predict outcome and selection equation values from hpaSelection model
 //' @description This function predicts outcome and selection equation values from hpaSelection model.
+//' @param object Object of class "hpaSelection"
 //' @param method string value indicating prediction method based on hermite polynomial approximation "HPA" or Newey method "Newey".
 //' @template newdata_Template
 //' @param is_cond logical; if \code{TRUE} (default) then conditional predictions will be estimated. Otherwise unconditional predictions will be returned.
@@ -752,12 +752,15 @@ double hpaSelectionLnLOptim(NumericVector x0,
 //' Otherwise selection equation predictions (probabilities) will be returned.
 //' @details Note that Newey method can't predict conditional outcomes for zero selection equation value. Conditional probabilities for selection equation
 //' could be estimated only when dependent variable from outcome equation is observable.
-//' @returns This function returns the list which structure depends on \code{method}, \code{is_probit} and \code{is_outcome} values.
+//' @return This function returns the list which structure depends on \code{method}, \code{is_probit} and \code{is_outcome} values.
 //' @export
-// [[Rcpp::export(predict.hpaSelection)]]
-List predict_Selection(List model, DataFrame newdata = R_NilValue, std::string method = "HPA", 
+// [[Rcpp::export]]
+List predict_hpaSelection(List object, DataFrame newdata = R_NilValue, std::string method = "HPA", 
 	bool is_cond = true, bool is_outcome = true)
 {
+
+	List model = object;
+
 	//Add additional environments
 
 	Rcpp::Environment stats_env("package:stats");
@@ -998,21 +1001,27 @@ List predict_Selection(List model, DataFrame newdata = R_NilValue, std::string m
 
 //' Summarizing hpaSelection Fits
 //' @description This function summarizing hpaSelection Fits
-//' @param model Object of class "hpaSelection"
+//' @param object Object of class "hpaSelection"
 //' @return This function returns the same list as \code{\link[hpa]{hpaSelection}} function changing it's class to "summary.hpaSelection".
-//' @export	
-// [[Rcpp::export(summary.hpaSelection)]]
-List summary_Selection(List model) {
-	List return_result = clone(model); //in order to preserve model class
+//' @export
+// [[Rcpp::export]]
+List summary_hpaSelection(List object) 
+{
+
+	List return_result = clone(object); //in order to preserve model class
+
 	return_result.attr("class") = "summary.hpaSelection";
+
 	return(return_result);
 }
 
 //' Summary for hpaSelection output
-//' @param model Object of class "hpaSelection"
-//' @export	
-// [[Rcpp::export(print.summary.hpaSelection)]]
-void print_summary_Selection(List model) {
+//' @param x Object of class "hpaSelection"
+//' @export
+// [[Rcpp::export]]
+void print_summary_hpaSelection(List x) {
+
+	List model = x;
 
 	//Load additional environments
 	Rcpp::Environment base_env("package:base");
@@ -1054,11 +1063,7 @@ void print_summary_Selection(List model) {
 	StringVector results_rownames = rownames(results);
 	StringVector results_colnames = colnames(results);
 
-	double z_mean = model["z_mean"];
 	double z_sd = model["z_sd"];
-
-	double y_mean = model["y_mean"];
-	double y_sd = model["y_sd"];
 
 	double lnL = model["log-likelihood"];
 	double AIC = model["AIC"];
@@ -1138,15 +1143,17 @@ void print_summary_Selection(List model) {
 }
 
 //' Plot hpaSelection random errors approximated density
-//' @param model Object of class "hpaSelection"
+//' @param x Object of class "hpaSelection"
 //' @param is_outcome logical; if TRUE then function plots the graph for outcome equation random errors. 
 //' Otherwise plot for selection equation random errors will be plotted.
-//' @returns This function returns the list containing random error's expected value \code{errors_exp}
+//' @return This function returns the list containing random error's expected value \code{errors_exp}
 //' and variance \code{errors_var} estimates for selection (if \code{is_outcome = TRUE}) or outcome
 //' (if \code{is_outcome = FALSE}) equation.
-//' @export	
-// [[Rcpp::export(plot.hpaSelection)]]
-List plot_Selection(List model, bool is_outcome = true) {
+//' @export
+// [[Rcpp::export]]
+List plot_hpaSelection(List x, bool is_outcome = true) {
+
+	List model = x;
 
 	//Load additional environments
 	Rcpp::Environment base_env("package:base");
@@ -1198,18 +1205,18 @@ List plot_Selection(List model, bool is_outcome = true) {
 
 	double precise = (plot_max - plot_min) / n;
 
-	NumericMatrix x = NumericMatrix(n, 2);
-	x(0, 0) = plot_min;
-	x(0, 1) = plot_min;
+	NumericMatrix x_matr = NumericMatrix(n, 2);
+	x_matr(0, 0) = plot_min;
+	x_matr(0, 1) = plot_min;
 
 	for (int i = 1; i < n; i++)
 	{
-		x(i, eq_ind) = x(i - 1, eq_ind) + precise;
+		x_matr(i, eq_ind) = x_matr(i - 1, eq_ind) + precise;
 	}
 
 	//calculate densities
 
-	NumericVector den = dhpa(x,
+	NumericVector den = dhpa(x_matr,
 		pol_coefficients, pol_degrees,
 		LogicalVector::create(false, false),
 		LogicalVector::create(is_outcome, !is_outcome),
@@ -1218,7 +1225,7 @@ List plot_Selection(List model, bool is_outcome = true) {
 	double den_min = min(den);
 	double den_max = max(den);
 
-	NumericVector x_vec = x(_, eq_ind);
+	NumericVector x_vec = x_matr(_, eq_ind);
 
 	plot_R(Rcpp::_["x"] = x_vec, Rcpp::_["y"] = den,
 		Rcpp::_["xlim"] = NumericVector::create(plot_min, plot_max),
@@ -1238,21 +1245,36 @@ List plot_Selection(List model, bool is_outcome = true) {
 
 //' Calculates AIC for "hpaSelection" object
 //' @description This function calculates AIC for "hpaSelection" object
-//' @export	
-// [[Rcpp::export(AIC.hpaSelection)]]
-double AIC_Selection(List model) {
-	double AIC = model["AIC"];
+//' @param object Object of class "hpaSelection"
+//' @template AIC_Template
+//' @export
+// [[Rcpp::export]]
+double AIC_hpaSelection(List object, double k = 2) 
+{
+
+	double AIC = object["AIC"];
+
+	if (k == 2)
+	{
+		return(AIC);
+	}
+
+	NumericVector x1 = object["x1"];
+
+	AIC += (k - 2) * x1.size();
+
 	return(AIC);
 }
 
 //' Calculates log-likelihood for "hpaSelection" object
 //' @description This function calculates log-likelihood for "hpaSelection" object
-//' @export	
-// [[Rcpp::export(logLik.hpaSelection)]]
-double logLik_Selection(List model) {
-	double lnL = model["log-likelihood"];
+//' @param object Object of class "hpaSelection"
+//' @export
+// [[Rcpp::export]]
+double logLik_hpaSelection(List object) 
+{
+
+	double lnL = object["log-likelihood"];
+
 	return(lnL);
 }
-
-
-

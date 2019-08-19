@@ -13,14 +13,6 @@ Rcpp::List hpaML(Rcpp::NumericMatrix x,
 	Rcpp::LogicalVector omit_ind,
 	NumericVector x0);
 
-double hpaLnL(Rcpp::NumericMatrix x,
-	Rcpp::NumericVector pol_coefficients,
-	Rcpp::NumericVector pol_degrees,
-	Rcpp::LogicalVector given_ind,
-	Rcpp::LogicalVector omit_ind,
-	Rcpp::NumericVector mean,
-	Rcpp::NumericVector sd);
-
 double hpaLnLOptim(Rcpp::NumericVector x0,
 	Rcpp::NumericMatrix x,
 	Rcpp::NumericVector pol_coefficients_ind,
@@ -33,16 +25,16 @@ double hpaLnLOptim(Rcpp::NumericVector x0,
 	Rcpp::NumericMatrix tr_left,
 	Rcpp::NumericMatrix tr_right);
 
-Rcpp::NumericVector predict_ML(List model,
+Rcpp::NumericVector predict_hpaML(List object,
 	Rcpp::NumericMatrix newdata);
 
-void print_summary_ML(Rcpp::List model);
+void print_summary_hpaML(Rcpp::List x);
 
-Rcpp::List summary_ML(Rcpp::List model);
+Rcpp::List summary_hpaML(Rcpp::List model);
 
-double AIC_ML(Rcpp::List model);
+double AIC_hpaML(Rcpp::List model, double k);
 
-double logLik_ML(Rcpp::List model);
+double logLik_hpaML(Rcpp::List model);
 
 Rcpp::StringVector starVector(Rcpp::NumericVector p_values);
 

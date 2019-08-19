@@ -6,29 +6,28 @@ using namespace Rcpp;
 using namespace RcppArmadillo;
 // [[Rcpp::depends(RcppArmadillo)]]
 
-//' Hermite polynomial density,
-//' cumulative distribution function and moments approximations.
-//' @description This function estimates hermite polynomial density,
-//' cumulative distribution function and moments approximations.
-//' @template x_lower_Template
-//' @template x_upper_Template
-//' @template pol_coefficients_Template
-//' @template pol_degrees_Template
-//' @template type_Template
-//' @template given_ind_Template
-//' @template omit_ind_Template
-//' @template mean_Template
-//' @template sd_Template
-//' @template expectation_powers_Template
-//' @template pdf_lower_Template
-//' @template cdf_lower_Template
-//' @template pdf_upper_Template
-//' @template cdf_upper_Template
-//' @template cdf_difference_Template
-//' @details
-//' If you already have some precalculated values please specify them using 
-//' \code{pdf_lower}, \code{pdf_upper}, \code{cdf_lower}, \code{cdf_upper} and \code{cdf_difference} arguments.
-//'
+// Hermite polynomial density,
+// cumulative distribution function and moments approximations.
+// @description This function estimates hermite polynomial density,
+// cumulative distribution function and moments approximations.
+// @template x_lower_Template
+// @template x_upper_Template
+// @template pol_coefficients_Template
+// @template pol_degrees_Template
+// @template type_Template
+// @template given_ind_Template
+// @template omit_ind_Template
+// @template mean_Template
+// @template sd_Template
+// @template expectation_powers_Template
+// @template pdf_lower_Template
+// @template cdf_lower_Template
+// @template pdf_upper_Template
+// @template cdf_upper_Template
+// @template cdf_difference_Template
+// @details
+// If you already have some precalculated values please specify them using 
+// \code{pdf_lower}, \code{pdf_upper}, \code{cdf_lower}, \code{cdf_upper} and \code{cdf_difference} arguments.
 NumericVector hpaMain(
 	NumericMatrix x_lower = NumericMatrix(1,1),
 	NumericMatrix x_upper = NumericMatrix(1,1),
@@ -372,7 +371,6 @@ NumericVector hpaMain(
 //' @template omit_ind_Template
 //' @template mean_Template
 //' @template sd_Template
-//' @details 
 //' @template GN_details_Template
 //' @template dhpa_examples_Template
 //' @return This function returns density function hermite polynomial approximation at point \code{x}.
@@ -406,7 +404,6 @@ NumericVector dhpa(
 //' @template omit_ind_Template
 //' @template mean_Template
 //' @template sd_Template
-//' @details
 //' @template GN_details_Template
 //' @return This function returns cumulative distribution function hermite polynomial approximation at point \code{x}.
 //' @template phpa_examples_Template
@@ -441,7 +438,6 @@ NumericVector phpa(
 //' @template omit_ind_Template
 //' @template mean_Template
 //' @template sd_Template
-//' @details
 //' @template interval_cdf_Template
 //' @template GN_details_Template
 //' @return This function returns interval distribution function hermite polynomial approximation at point \code{x}.
@@ -478,7 +474,6 @@ NumericVector ihpa(
 //' @template mean_Template
 //' @template sd_Template
 //' @template expectation_powers_Template
-//' @details
 //' @template expected_powered_product_Template
 //' @template GN_details_Template
 //' @return This function returns numeric vector of expected powered product hermite polynomial approximations.
@@ -511,12 +506,9 @@ NumericVector ehpa(NumericMatrix x = NumericMatrix(1, 1), //for given
 //' @template tr_right_Template
 //' @template pol_coefficients_Template
 //' @template pol_degrees_Template
-//' @template given_ind_Template
-//' @template omit_ind_Template
 //' @template mean_Template
 //' @template sd_Template
 //' @template expectation_powers_Template
-//' @details
 //' @template expected_powered_product_Template
 //' @template GN_details_Template
 //' @template etrhpa_examples_Template
@@ -554,7 +546,6 @@ NumericVector etrhpa(
 //' @template omit_ind_Template
 //' @template mean_Template
 //' @template sd_Template
-//' @details 
 //' @template GN_details_Template
 //' @template dtrhpa_examples_Template
 //' @return This function returns density function hermite polynomial approximation at point \code{x} for truncated distribution.
@@ -607,7 +598,6 @@ NumericVector dtrhpa(
 //' @template omit_ind_Template
 //' @template mean_Template
 //' @template sd_Template
-//' @details
 //' @template itrhpa_examples_Template
 //' @template interval_cdf_Template
 //' @template GN_details_Template
