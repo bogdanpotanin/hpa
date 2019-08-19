@@ -119,7 +119,8 @@ NumericMatrix normalMoment(int k = 0,
 //' @details This function estimates \code{k}-th order moment of
 //' normal distribution which mean equals to \code{mean} and standard deviation equals to \code{sd} truncated
 //' at points given by \code{x_lower} and \code{x_upper}. Note that the function is vectorized so you can provide
-//' \code{x_lower} and \code{x_upper} as vectors of equal size.\cr
+//' \code{x_lower} and \code{x_upper} as vectors of equal size. If vectors values for \code{x_lower} and \code{x_upper} are not
+//' provided then their default values will be set to (-9999999999999) and (9999999999999) correspondingly.
 //' @template k_integer_Template
 //' @template pdf_cdf_precalculated_Template
 //' @return This function returns vector of k-th order moments for normaly distributed random variable
@@ -146,8 +147,8 @@ NumericMatrix normalMoment(int k = 0,
 //' @export
 // [[Rcpp::export]]
 NumericMatrix truncatedNormalMoment(int k = 1,
-	NumericVector x_lower = 9999999999999,
-	NumericVector x_upper = -9999999999999,
+	NumericVector x_lower = NumericVector(0),
+	NumericVector x_upper = NumericVector(0),
 	double mean = 0, double sd = 1,
 	NumericVector pdf_lower = NumericVector(0),
 	NumericVector cdf_lower = NumericVector(0),
@@ -157,6 +158,17 @@ NumericMatrix truncatedNormalMoment(int k = 1,
 	bool return_all_moments = false, 
 	bool is_validation = true) 
 {
+	//Assign default truncation values
+
+	if (x_lower.size() == 0)
+	{
+		x_lower = NumericVector::cretate(-9999999999999);
+	}
+
+	if (x_upper.size() == 0)
+	{
+		x_lower = NumericVector::cretate(9999999999999);
+	}
 
 	//Get number of observations
 	int n = x_lower.size();
