@@ -1,0 +1,348 @@
+list.of.packages <- c("memisc", "dplyr", "psych", "lmtest","sjPlot",
+                      "sgof","ggplot2","xlsx","tseries","broom","knitr",
+                      "plm", "foreign", "car", "apsrtable", "tseries", "ff",
+                      'sampleSelection', 'maxLik', 'graphics', "stargazer", 
+                      'BaylorEdPsych', 'rJava', "sandwich", "mvtnorm", 'condMVNorm',
+                      "xlsx", 'nloptr', 'mnormt', 'Matrix', 'matrixcalc', 'numDeriv',
+                      'optimx', 'memoise', 'maxLik', 'GenSA', 'rootSolve', 'datasets',
+                      'abind', 'pbivnorm', 'sm', "devtools", "reshape2")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+library("memisc") # две и более регрессий в одной табличке
+library("dplyr") # манипуляции с данными
+library("psych") # описательные статистики
+library("lmtest") # тестирование гипотез в линейных моделях
+library("sjPlot") # графики
+library("sgof")
+library("ggplot2") # графики
+library("xlsx")
+library("tseries")
+library("broom")
+library("knitr")
+library("plm")
+library("foreign")
+library("car")
+library("apsrtable")
+library("tseries")
+library("ff")
+library('sampleSelection') #Heckman test
+library('maxLik') #MLE
+library('graphics')
+library("stargazer")#Latex
+library('BaylorEdPsych')
+library('rJava')
+library("sandwich")
+library("mvtnorm")
+library('condMVNorm')
+library("xlsx")
+library('nloptr')
+library('mnormt')
+library('Matrix')
+library('matrixcalc')
+library('numDeriv')
+library('optimx')
+library('memoise')
+library('maxLik')
+library('GenSA')
+library('rootSolve')
+library('datasets')
+library('abind')
+library('pbivnorm')
+library('sm')
+library("devtools")
+options(show.error.locations = TRUE)
+#Обобщенный метод Хекмана
+install_github("bogdanpotanin/MultivariateSwitchModel")
+library("MultivariateSwitch")
+################################
+#ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+################################
+as.numeric.factor <- function(x) {as.numeric(levels(x))[x]}
+#Функции по обработке данных
+#Добавление NA в непрерывные переменные
+missing_to_NA=function(my_variable)
+{
+  if (is.numeric(my_variable))
+  {
+    my_variable[(my_variable== 99999996) | (my_variable== 99999997) | 
+                  (my_variable== 99999998) |(my_variable== 99999999)]=NA
+  } else
+  {
+    my_variable[(my_variable== "ЗАТРУДНЯЮСЬ ОТВЕТИТЬ") | 
+                  (my_variable=="ОТКАЗ ОТ ОТВЕТА") | 
+                  (my_variable== "НЕТ ОТВЕТА")]=NA
+    my_variable=droplevels(my_variable)
+  }
+  return(my_variable)
+}
+#Перекодирование категориальных переменных в бинарные
+factor_to_binary<-function(my_variable,factor_name,is_minus=FALSE)
+{
+  new_variable=rep(x = NA,times=length(my_variable))   
+  new_variable[!is.na(my_variable) 
+               & my_variable!="ЗАТРУДНЯЮСЬ ОТВЕТИТЬ"
+               & my_variable!="ОТКАЗ ОТ ОТВЕТА"
+               & my_variable!="НЕТ ОТВЕТА"]=0          
+  new_variable[my_variable%in%factor_name]=1 
+  if(is_minus)
+  {
+    new_variable[new_variable==0]=-1
+  }
+  #с нужным значением фактора
+  return(new_variable)
+}
+################################
+#ЗАГРУЗКА ДАННЫХ
+################################
+#Записываем и объединяем данные
+  #массив по индивидам
+h_indiv = read.spss("D:\\ВШЭ\\3 курс\\Диссертация\\Данные\\25wave.sav", 
+                    to.data.frame=TRUE, use.value.labels = TRUE, max.value.labels = 30)
+  #массив по домохозяйствам
+h_house = read.spss("D:\\ВШЭ\\3 курс\\Диссертация\\Данные\\25wave1.sav", 
+                    use.value.labels = TRUE, max.value.labels = 30)
+h_house$uid_h=h_house$UID_H
+h=merge(h_indiv,h_house,"uid_h")
+#Переменная на возраст
+h$age=h$u_age
+#Новая Москва как Московская область
+h$region.x[h$region.x==140]=142
+  #массив по Marriage Squeeze
+h_squeeze=read.xlsx("D:\\ВШЭ\\3 курс\\Диссертация\\Данные\\Squeeze.xlsx", encoding = "UTF-8", sheetIndex = 1)
+h_squeeze$Возраст_25_29 = h_squeeze$Возраст == "25 – 29";
+h$Возраст_25_29 = h$age>=25 & h$age<=29
+h_squeeze$Возраст_30_34 = h_squeeze$Возраст == "30 – 34"
+h$Возраст_30_34 = h$age>=30 & h$age<=34
+h_squeeze$Возраст_35_39 = h_squeeze$Возраст == "35 – 39"
+h$Возраст_35_39 = h$age>=35 & h$age<=39
+h_squeeze$Возраст_40_44 = h_squeeze$Возраст == "40 – 44"
+h$Возраст_40_44 = h$age>=40 & h$age<=44
+h_squeeze$Возраст_45_49 = h_squeeze$Возраст == "45 – 49"
+h$Возраст_45_49 = h$age>=45 & h$age<=49
+h_squeeze$Возраст_50_54 = h_squeeze$Возраст == "50 – 54"
+h$Возраст_50_54 = h$age>=50 & h$age<=54
+h_squeeze$Возраст_55_60 = h_squeeze$Возраст == "55 – 59"
+h$Возраст_55_60 = h$age>=55 & h$age<=60
+h_squeeze$Возраст_другие = h_squeeze$Возраст == "16 – 17"
+h$Возраст_другие = h$age<25 | h$age>60
+h_squeeze$ВозрастMerge=as.factor(-h_squeeze$Возраст_другие+h_squeeze$Возраст_25_29+2*h_squeeze$Возраст_30_34+3*h_squeeze$Возраст_35_39+4*h_squeeze$Возраст_40_44+
+  5*h_squeeze$Возраст_45_49+6*h_squeeze$Возраст_50_54+7*h_squeeze$Возраст_55_60)
+h$ВозрастMerge=as.factor(-h$Возраст_другие+h$Возраст_25_29+2*h$Возраст_30_34+3*h$Возраст_35_39+4*h$Возраст_40_44+
+  5*h$Возраст_45_49+6*h$Возраст_50_54+7*h$Возраст_55_60)
+h_squeeze=h_squeeze[h_squeeze$ВозрастMerge!=0,]
+h_squeeze$ВозрастРегион=paste(h_squeeze$ВозрастMerge, "vs", h_squeeze$region.x)
+h$ВозрастРегион=paste(h$ВозрастMerge, "vs", h$region.x) 
+h=merge(h,h_squeeze,c("ВозрастРегион"))
+  #массив по региональным зарплатам и безработице
+h_region=read.xlsx("D:\\ВШЭ\\3 курс\\Диссертация\\Данные\\Безработица Зарплата.xlsx", encoding = "UTF-8", sheetIndex = 1)
+h=merge(h,h_region,"psu.x")
+h$region.x=h$region.x.x
+n=length(h[,1])
+################################
+#ФОРМИРОВАНИЕ ПЕРЕМЕННЫХ
+################################
+#Зарплата
+h$wage=missing_to_NA(h$uj13.2)
+#Переменная на работающих
+h$work=factor_to_binary(h$uj1,c("Вы сейчас работаете",
+                                "Вы находитесь в любом другом оплачиваемом отпуске",
+                                "Вы находитесь в неоплачиваемом отпуске"),TRUE)
+  #престраховка: удалим неработающих, но зарабатывающих
+h$wage[h$work==-1]=NA
+h$wage[h$wage==0]=NA
+#Ответ на вопрос про зарплату
+h$answer=NA
+h$answer[is.na(h$wage)==TRUE & h$work==1]=-1
+h$answer[is.na(h$wage)==FALSE & h$work==1]=1
+#Тип населенного пункта
+h$locality=h$status.x
+h$Moscow=0
+h$Moscow[h$region.x=='Москва' | h$region.x==138]=1
+h$Peter=0
+h$Peter[h$region.x=='Санкт-Петербург' | h$region.x==141]=1
+h$OblCentr=0
+h$OblCentr[h$locality=='Областной центр' & h$Moscow==0 & h$Peter==0]=1
+h$Gorod=0
+h$Gorod[h$locality=='Город' & h$Moscow==0 & h$Peter==0]=1
+h$PGT=0
+h$PGT[h$locality=='ПГТ' & h$Moscow==0 & h$Peter==0]=1
+h$Selo=1-(h$Moscow+h$Peter+h$OblCentr+h$Gorod+h$PGT)
+#Пол
+h$male=factor_to_binary(h$uh5,"МУЖСКОЙ")
+#Брак
+h$marriage=missing_to_NA(h$u_marst)
+h$Brak=factor_to_binary(h$marriage,c("Состоите в зарегистрированном браке",
+                                     "ОФИЦИАЛЬНО ЗАРЕГИСТРИРОВАНЫ, НО ВМЕСТЕ НЕ ПРОЖИВАЮТ"),TRUE)
+#h$Brak[h$marriage=="Bдовец (вдова)"]=NA
+summary(h$Brak)
+#Переменная - наличие детей
+h$children=factor_to_binary(h$uj72.171,"Да")
+#Переменная - количество детей
+h$children_n=as.double(missing_to_NA(h$uj72.172)) 
+h$children_n[h$children==0]=0                               
+#Переменная - количество несовершеннолетних детей
+h$children_n_18=as.double(missing_to_NA(h$uj72.173))
+h$children_n_18[h$children_n==0]=0
+#Трудовой стаж
+h$seniority=missing_to_NA(h$uj161.3y)
+h$seniority[h$seniority>100]=NA
+#Общий доход
+h$income=missing_to_NA(h$uj60)
+#Длина рабочей недели
+h$workWeek=missing_to_NA(h$uj6.2)
+  #обнуляем длину рабочей недели безработным
+h$workWeek[!is.na(h$work) & h$work==-1]=0
+#Образование
+h$education=missing_to_NA(h$u_diplom)
+#Кодирование образования
+h$educ_1=factor_to_binary(h$education,"законченное среднее образование")
+h$educ_2=factor_to_binary(h$education,"законченное среднее специальное образование")
+h$educ_3=factor_to_binary(h$education,"законченное высшее образование и выше")
+#Инвалидность
+h$invalide=factor_to_binary(h$um20.7,"Да")
+#Курение
+h$smoke=factor_to_binary(h$um71,"Да")
+#Возраст дамми
+h$age[h$age>800]=NA
+h$age1=h$age>=25 & h$age<=29
+h$age2=h$age>=30 & h$age<=34
+h$age3=h$age>=35 & h$age<=39
+h$age4=h$age>=40 & h$age<=44
+h$age5=h$age>=45 & h$age<=49
+h$age6=h$age>=50 & h$age<=55
+h$age7=h$age>=56 & h$age<=60
+#Алкоголь
+h$alc=factor_to_binary(h$um80.0,"Да, употребляете")
+#Тестирование обыкновенной линейной модели
+condition1=(h$age>=25 & h$age<=60 &  h$male==1)
+condition=(condition1 & (h$wage>7500 | h$wage==0 | is.na(h$wage)))
+#МНК
+summary(modelMydata<-lm(log(wage)~educ_1+educ_2+educ_3+seniority+I(seniority^2)+
+                        invalide+
+                        Moscow+Peter+OblCentr+Gorod+PGT+I(log(regionWage)), 
+                        data=h[condition & !is.na(h$children),], na.action = na.exclude))
+#############################
+#Модель 1
+#############################
+  #Задаем правила
+zo3=matrix(0,ncol=2,nrow=4)
+zo3[1,]=c(1,1);              #первое правило в первой строке
+zo3[2,]=c(1,-1);             #второе правило во второй строке
+zo3[3,]=c(-1,1);             #третье правило в третей строке
+zo3[4,]=c(-1,-1);            #четвертое правило в четвертой строке
+group=c(1,2,0,0);            #определяем группу (свич) каждому правилу, где 0 - ненаблюдаемый y
+  #Оцениваем модель
+heckmanList<-gheckman(data=h[condition,],
+                                  outcome = log(wage)~educ_1+educ_2+educ_3+seniority+I(seniority^2)+
+                                    invalide+
+                                    Moscow+Peter+OblCentr+Gorod+PGT+I(log(regionWage)),
+                                  selection1 = work~age+I(age^2)+
+                                    educ_1+educ_2+educ_3+
+                                    invalide+
+                                    children+
+                                    Moscow+Peter+OblCentr+Gorod+PGT+I(regionWork),
+                                  selection2 = Brak~age+I(age^2)+
+                                    educ_1+educ_2+educ_3+
+                                    invalide+
+                                    Moscow+Peter+OblCentr+Gorod+PGT+I(Оффициальный.М/Ответили.М),
+                                    groups=group, rules=zo3, show_info=TRUE, only_twostep=FALSE)
+mean(heckmanList$sort_list$y_outcome[[1]])-mean(heckmanList$sort_list$y_outcome[[2]])
+length(heckmanList$sort_list$y_outcome[[1]])
+#Результаты оценивания модели
+  #ММП
+heckmanList$mle$result
+  #Двухшаговая процедура для женатых
+heckmanList$twostep$model[[1]]
+  #Двухшаговая процедура для холостых
+heckmanList$twostep$model[[2]]
+#Посчитаем TET
+TET_individual=gheckmanTET_individual(sort_list = heckmanList$sort_list,
+                                      group_treatment = 1, group_control = 2, 
+                                      standard_errors = TRUE)
+  #Достаем средние значения компонентов и их средние стандартные ошибки
+J1=c(mean(TET_individual$TET_observed),mean(TET_individual$TET_observed_std))
+J2=c(mean(TET_individual$TET_unobserved),mean(TET_individual$TET_unobserved_std))
+J3=c(mean(TET_individual$selection_bias),mean(TET_individual$selection_bias_std))
+MMP=c(mean(TET_individual$total_effect),mean(TET_individual$total_effect_std))
+#############################
+#Модель 0
+#############################
+#Задаем правила
+zo3=matrix(0,ncol=2,nrow=4)
+zo3[1,]=c(1,1);              #первое правило в первой строке
+zo3[2,]=c(1,-1);             #второе правило во второй строке
+zo3[3,]=c(-1,1);             #третье правило в третей строке
+zo3[4,]=c(-1,-1);            #четвертое правило в четвертой строке
+group=c(1,1,0,0);            #определяем группу (свич) каждому правилу, где 0 - ненаблюдаемый y
+#Оцениваем модель
+heckmanList<-gheckman(data=h[condition,],
+                      outcome = log(wage)~educ_1+educ_2+educ_3+seniority+I(seniority^2)+
+                        invalide+
+                        Moscow+Peter+OblCentr+Gorod+PGT+I(log(regionWage))+Brak,
+                      selection1 = work~age+I(age^2)+
+                        educ_1+educ_2+educ_3+
+                        invalide+
+                        children+
+                        Moscow+Peter+OblCentr+Gorod+PGT+I(regionWork),
+                      selection2 = Brak~age+I(age^2)+
+                        educ_1+educ_2+educ_3+
+                        invalide+
+                        Moscow+Peter+OblCentr+Gorod+PGT+I(Оффициальный.М/Ответили.М),
+                      groups=group, rules=zo3, show_info=TRUE)
+#Результаты оценивания модели
+#ММП
+heckmanList$mle$result
+#Двухшаговая процедура 
+heckmanList$twostep$model[[1]]
+#MMP
+source('D:/gheckmanPackage/MultivariateSwitch/R/gheckmanTET_individual.R')
+TET_individual=gheckmanTET_individual(sort_list = heckmanList$sort_list,group_treatment = 1, group_control = 2, 
+                                      standard_errors = TRUE, endogeneous_treatment_variable_names = "Brak")
+J1=c(mean(TET_individual$TET_observed),mean(TET_individual$TET_observed_std))
+J2=c(mean(TET_individual$TET_unobserved),mean(TET_individual$TET_unobserved_std))
+J3=c(mean(TET_individual$selection_bias),mean(TET_individual$selection_bias_std))
+MMP=c(mean(TET_individual$total_effect),mean(TET_individual$total_effect_std))
+#############################
+#МНК
+#############################
+summary(lm(log(wage)~educ_1+educ_2+educ_3+seniority+I(seniority^2)+
+             invalide+
+             Moscow+Peter+OblCentr+Gorod+PGT+I(log(regionWage))+Brak, data=h[condition,]))
+#############################
+#Одномерный Хекман
+#############################
+source('D:/gheckmanPackage/MultivariateSwitch/R/gheckman.R')
+source('D:/gheckmanPackage/MultivariateSwitch/R/gheckmanLSAdjustCovariance.R')
+zo3=matrix(0,ncol=1,nrow=2)
+zo3[1,]=c(1);              #первое правило в первой строке
+zo3[2,]=c(-1);             #второе правило во второй строке
+group=c(1,0);              #определяем группу (свич) каждому правилу, где 0 - ненаблюдаемый y
+#Оцениваем модель
+heckmanList<-gheckman(data=h[condition,],
+                      outcome = log(wage)~educ_1+educ_2+educ_3+seniority+I(seniority^2)+
+                        invalide+
+                        Moscow+Peter+OblCentr+Gorod+PGT+I(log(regionWage))+Brak,
+                      selection1 = work~age+I(age^2)+
+                        educ_1+educ_2+educ_3+
+                        invalide+
+                        children+
+                        Moscow+Peter+OblCentr+Gorod+PGT+I(regionWork),
+                      groups=group, rules=zo3, show_info=TRUE)
+#ММП
+heckmanList$mle$result
+#Двухшаговая процедура 
+heckmanList$twostep$model[[1]]
+#MMP
+source('D:/gheckmanPackage/MultivariateSwitch/R/gheckmanTET_individual.R')
+TET_individual=gheckmanTET_individual(sort_list = heckmanList$sort_list,group_treatment = 1, group_control = 2, 
+                                      standard_errors = FALSE, endogeneous_treatment_variable_names = "Brak",
+                                      rule_treatment = 1, rule_control = 1,
+                                      outcome_treatment = 1, outcome_control = 1)
+J1=mean(TET_individual$TET_observed[heckmanList$sort_list$y_variables[[1]]$Brak==1])
+J2=mean(TET_individual$TET_unobserved[heckmanList$sort_list$y_variables[[1]]$Brak==1])
+J3=mean(TET_individual$selection_bias[heckmanList$sort_list$y_variables[[1]]$Brak==1])
+MMP=mean(TET_individual$total_effect[heckmanList$sort_list$y_variables[[1]]$Brak==1])
+#############################
+#Хекман с инструментированным браком
+#############################
+mean(heckmanList$sort_list$y_variables[[1]])
