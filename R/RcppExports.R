@@ -564,7 +564,8 @@ normalMoment <- function(k = 0L, mean = 0, sd = 1, return_all_moments = FALSE, i
 #' @details This function estimates \code{k}-th order moment of
 #' normal distribution which mean equals to \code{mean} and standard deviation equals to \code{sd} truncated
 #' at points given by \code{x_lower} and \code{x_upper}. Note that the function is vectorized so you can provide
-#' \code{x_lower} and \code{x_upper} as vectors of equal size.\cr
+#' \code{x_lower} and \code{x_upper} as vectors of equal size. If vectors values for \code{x_lower} and \code{x_upper} are not
+#' provided then their default values will be set to (-9999999999999.1) and (9999999999999.1) correspondingly.
 #' @template k_integer_Template
 #' @template pdf_cdf_precalculated_Template
 #' @return This function returns vector of k-th order moments for normaly distributed random variable
@@ -589,7 +590,7 @@ normalMoment <- function(k = 0L, mean = 0, sd = 1, return_all_moments = FALSE, i
 #' truncatedNormalMoment(k, x_lower, x_upper, mean, sd, return_all_moments = TRUE)
 #'
 #' @export
-truncatedNormalMoment <- function(k = 1L, x_lower = 9999999999999L, x_upper = -9999999999999L, mean = 0, sd = 1, pdf_lower = numeric(0), cdf_lower = numeric(0), pdf_upper = numeric(0), cdf_upper = numeric(0), cdf_difference = numeric(0), return_all_moments = FALSE, is_validation = TRUE) {
+truncatedNormalMoment <- function(k = 1L, x_lower = numeric(0), x_upper = numeric(0), mean = 0, sd = 1, pdf_lower = numeric(0), cdf_lower = numeric(0), pdf_upper = numeric(0), cdf_upper = numeric(0), cdf_difference = numeric(0), return_all_moments = FALSE, is_validation = TRUE) {
     .Call(`_hpa_truncatedNormalMoment`, k, x_lower, x_upper, mean, sd, pdf_lower, cdf_lower, pdf_upper, cdf_upper, cdf_difference, return_all_moments, is_validation)
 }
 
