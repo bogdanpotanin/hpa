@@ -162,12 +162,12 @@ NumericMatrix truncatedNormalMoment(int k = 1,
 
 	if (x_lower.size() == 0)
 	{
-		x_lower = NumericVector::cretate(-9999999999999);
+		x_lower = NumericVector::create(-9999999999999);
 	}
 
 	if (x_upper.size() == 0)
 	{
-		x_lower = NumericVector::cretate(9999999999999);
+		x_lower = NumericVector::create(9999999999999);
 	}
 
 	//Get number of observations
