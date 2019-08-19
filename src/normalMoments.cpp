@@ -120,7 +120,7 @@ NumericMatrix normalMoment(int k = 0,
 //' normal distribution which mean equals to \code{mean} and standard deviation equals to \code{sd} truncated
 //' at points given by \code{x_lower} and \code{x_upper}. Note that the function is vectorized so you can provide
 //' \code{x_lower} and \code{x_upper} as vectors of equal size. If vectors values for \code{x_lower} and \code{x_upper} are not
-//' provided then their default values will be set to (-9999999999999) and (9999999999999) correspondingly.
+//' provided then their default values will be set to (-9999999999999.1) and (9999999999999.1) correspondingly.
 //' @template k_integer_Template
 //' @template pdf_cdf_precalculated_Template
 //' @return This function returns vector of k-th order moments for normaly distributed random variable
@@ -162,12 +162,12 @@ NumericMatrix truncatedNormalMoment(int k = 1,
 
 	if (x_lower.size() == 0)
 	{
-		x_lower = NumericVector::create(-9999999999999);
+		x_lower = NumericVector::create(-9999999999999.1);
 	}
 
 	if (x_upper.size() == 0)
 	{
-		x_lower = NumericVector::create(9999999999999);
+		x_lower = NumericVector::create(9999999999999.1);
 	}
 
 	//Get number of observations
