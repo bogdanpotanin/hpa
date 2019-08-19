@@ -39,7 +39,7 @@
 #' ##Note that calculations may take up to a minute
 #' 
 #' #Simulate 5000 realizations of three dimensional student distribution with 5 degrees of freedom
-#' library("MultiRNG")
+#' library("mvtnorm")
 #' cov_mat <- matrix(c(1, 0.25, -0.25, 0.25, 1, 0.25, -0.25, 0.25, 1), ncol = 3)
 #'	x <- rmvt(n = 5000, sigma = cov_mat, df = 5)
 #'	
