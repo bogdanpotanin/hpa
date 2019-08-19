@@ -1,0 +1,34 @@
+#' @examples
+#' ##Let's approximate some three truncated random variables powered product expectation for powers (3,2,1)
+#' ##with hermite polynomial of (1,2,3) degrees which polynomial coefficients equals 1 except
+#' ##coefficient related to x1*(x^3) polynomial element which equals 2. Also suppose that normal density related
+#' ##mean vector equals (1.1, 1.2, 1.3) while standard deviations vector is (2.1, 2.2, 2.3). Suppose that lower and upper truncation
+#' ##are (-1.1,-1.2,-1.3) and (1.1,1.2,1.3) correspondingly.
+#' 
+#' #Prepare initial values
+#' expectation_powers = c(3,2,1)
+#' tr_left = matrix(c(-1.1,-1.2,-1.3), nrow = 1)
+#' tr_right = matrix(c(1.1,1.2,1.3), nrow = 1)
+#'	mean <- c(1.1, 1.2, 1.3)
+#'	sd <- c(2.1, 2.2, 2.3)
+#'	pol_degrees <- c(1, 2, 3)
+#'	
+#' #Create polynomial powers and indexes correspondence matrix
+#' pol_ind <- polynomialIndex(pol_degrees)
+#'	#Set all polynomial coefficients to 1
+#'	pol_coefficients <- rep(1, ncol(pol_ind))
+#'	pol_degrees_n <- length(pol_degrees)
+#'	
+#'	#Assign coefficient 2 to the polynomial element(x1 ^ 1)*(x2 ^ 0)*(x3 ^ 2)
+#'	pol_coefficients[which(colSums(pol_ind == c(1, 0, 2)) == pol_degrees_n)] <- 2
+#'	
+#'	#Visualize correspondence between polynomial elements and their coefficients
+#'	as.data.frame(rbind(pol_ind, pol_coefficients),
+#'		row.names = c("x1 power", "x2 power", "x3 power", "coefficients"),
+#'		optional = TRUE)
+#' printPolynomial(pol_degrees, pol_coefficients)
+#' 
+#' #Calculate expected powered product approximation for truncated distribution
+#' etrhpa(pol_coefficients = pol_coefficients, pol_degrees = pol_degrees,
+#'		mean = mean, sd = sd, expectation_powers = expectation_powers,
+#'		tr_left = tr_left, tr_right = tr_right)
