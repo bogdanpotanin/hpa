@@ -4,12 +4,11 @@
 \alias{truncatedNormalMoment}
 \title{Calculate k-th order moment of truncated normal distribution}
 \usage{
-truncatedNormalMoment(k = 1L, x_lower = 9999999999999,
-  x_upper = -9999999999999, mean = 0, sd = 1,
-  pdf_lower = numeric(0), cdf_lower = numeric(0),
-  pdf_upper = numeric(0), cdf_upper = numeric(0),
-  cdf_difference = numeric(0), return_all_moments = FALSE,
-  is_validation = TRUE)
+truncatedNormalMoment(k = 1L, x_lower = numeric(0),
+  x_upper = numeric(0), mean = 0, sd = 1, pdf_lower = numeric(0),
+  cdf_lower = numeric(0), pdf_upper = numeric(0),
+  cdf_upper = numeric(0), cdf_difference = numeric(0),
+  return_all_moments = FALSE, is_validation = TRUE)
 }
 \arguments{
 \item{k}{non-negative integer moment order.}
@@ -60,7 +59,8 @@ This function iteratively calculates k-th order moment of truncated normal distr
 This function estimates \code{k}-th order moment of
 normal distribution which mean equals to \code{mean} and standard deviation equals to \code{sd} truncated
 at points given by \code{x_lower} and \code{x_upper}. Note that the function is vectorized so you can provide
-\code{x_lower} and \code{x_upper} as vectors of equal size.\cr
+\code{x_lower} and \code{x_upper} as vectors of equal size. If vectors values for \code{x_lower} and \code{x_upper} are not
+provided then their default values will be set to (-9999999999999.1) and (9999999999999.1) correspondingly.
 
 Note that parameter \code{k} value automatically converts to integer.
 So passing non-integer \code{k} value will not cause any errors but the calculations will be
