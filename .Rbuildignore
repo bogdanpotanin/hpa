@@ -5,3 +5,4 @@ man-roxygen
 ^\.Rproj\.user$
 ^doc$
 ^Meta$
+^\.travis\.yml$
