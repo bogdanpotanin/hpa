@@ -26,7 +26,7 @@ Potanin Bogdan, bogdanpotanin@gmail.com.
 Maintainer: Potanin Bogdan <bogdanpotanin@gmail.com>
 }
 \references{
-Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
+A. Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. \emph{Econometrica}, 55(2):363-90, 1987. DOI: 10.2307/1913241
 }
 \keyword{ package }
 \seealso{

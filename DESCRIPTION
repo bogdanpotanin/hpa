@@ -1,19 +1,14 @@
 Package: hpa
 Type: Package
-Title: Provides Tool for Distributions Hermite Polynomial Approximation
+Title: Distributions Hermite Polynomial Approximation
 Version: 1.0.0
-Date: 2019-17-08
+Date: 2019-08-20
 Author: Potanin Bogdan
 Maintainer: Potanin Bogdan <bogdanpotanin@gmail.com>
-Description: This package provides functions to calculate conditional marginal densities, moments, cumulative distribution functions as well as binary choice and sample selection models based on hermite polynomial approximation. We briefly list the main functions.  
-  Functions dhpa and phpa allow to approximate random variables joint densities and cumulative distribution functions via hermite polynomials. 
-  Function hpaML provides semi-nonparametric maximum likelihood estimation procedure based on hermite polynomial approximation.
-  Functions hpaBinary provides single index binary choice model estimation procedure based on hermite polynomial approximation.
-  Functions hpaSelection provides sample selection model estimation procedure based on hermite polynomial approximation.
+Description: Multivariate conditional and marginal densities, moments, cumulative distribution functions as well as binary choice and sample selection models based on hermite polynomial approximation which was proposed and described by A. Gallant and D. W. Nychka in 1987 (Gallant and D. W. Nychka. Semi-nonparametric maximum likelihood estimation. Econometrica, 55(2):363-90, 1987. DOI: 10.2307/1913241).
 License: GPL-3
 Imports: Rcpp (>= 1.0.1)
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1
 Encoding: UTF-8
-Suggests: knitr, rmarkdown, ggplot2, mvtnorm, titanic
-VignetteBuilder: knitr
+Suggests: ggplot2, mvtnorm, titanic

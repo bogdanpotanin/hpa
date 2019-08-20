@@ -67,7 +67,7 @@ AIC.hpaBinary <- function (object, ..., k = 2)
   {
     warnings("Additional arguments passed throught ... are ignored.")   
   }
-  return(AIC_hpaBinary(object))
+  return(AIC_hpaBinary(object, k))
 }
 ###
 #' Calculates log-likelihood for "hpaBinary" object

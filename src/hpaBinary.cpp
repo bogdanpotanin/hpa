@@ -725,6 +725,9 @@ NumericVector predict_hpaBinary(List object, DataFrame newdata = R_NilValue, boo
 	Rcpp::Function model_frame = stats_env["model.frame"];
 	Rcpp::Function na_omit_R = stats_env["na.omit"];
 
+	Rcpp::Environment base_env("package:base");
+	Rcpp::Function as_data_frame = base_env["as.data.frame"];
+
 	//Extract variables from model
 
 		//extract is values
@@ -733,21 +736,11 @@ NumericVector predict_hpaBinary(List object, DataFrame newdata = R_NilValue, boo
 
 	List is_List = model_Lists["is_List"];
 
-	bool is_z_coef_first_fixed = is_List["is_z_coef_first_fixed"];
-
-	bool is_z_mean_fixed = is_List["is_z_mean_fixed"];
-
-	bool is_z_sd_fixed = is_List["is_z_sd_fixed"];
-
 	bool is_z_constant_fixed = is_List["is_z_constant_fixed"];
 
 		//extract fixed values
 
 	List fixed_List = model_Lists["fixed_List"];
-
-	double z_mean_fixed = fixed_List["z_mean_fixed"];
-
-	double z_sd_fixed = fixed_List["z_sd_fixed"];
 
 	double z_constant_fixed = fixed_List["z_constant_fixed"];
 
@@ -771,7 +764,7 @@ NumericVector predict_hpaBinary(List object, DataFrame newdata = R_NilValue, boo
 
 	if (newdata.size() == 0)
 	{
-		newdata = model["dataframe"];
+		newdata = as_data_frame(model["dataframe"]);
 	}
 
 	//Remove NA values
@@ -807,8 +800,6 @@ NumericVector predict_hpaBinary(List object, DataFrame newdata = R_NilValue, boo
 	{
 		z_d(_, i - is_z_constant_fixed) = as<NumericVector>(z_df[i]);
 	}
-
-	int z_d_col = z_d.ncol();
 
 		//Convert to arma
 
@@ -867,6 +858,8 @@ List summary_hpaBinary(List object)
 void print_summary_hpaBinary(List x)
 {
 
+	//Extract the model
+
 	List model = x;
 
 	//Load additional environments
@@ -874,6 +867,7 @@ void print_summary_hpaBinary(List x)
 	Rcpp::Function as_table = base_env["as.table"];
 	Rcpp::Function cbind = base_env["cbind"];
 	Rcpp::Function round_R = base_env["round"];
+	Rcpp::Function as_data_frame = base_env["as.data.frame"];
 
 	NumericMatrix results = model["results"];
 	results = round_R(Rcpp::_["x"] = results, Rcpp::_["digits"] = 5);
@@ -883,7 +877,7 @@ void print_summary_hpaBinary(List x)
 	List ind_List = model_Lists["ind_List"];
 	NumericVector z_coef_ind = ind_List["z_coef_ind"];
 
-	//extract is values
+	//Extract is values
 
 	List is_List = model_Lists["is_List"];
 	bool is_z_coef_first_fixed = is_List["is_z_coef_first_fixed"];
@@ -891,18 +885,16 @@ void print_summary_hpaBinary(List x)
 	bool is_z_sd_fixed = is_List["is_z_sd_fixed"];
 	bool is_z_constant_fixed = is_List["is_z_constant_fixed"];
 
-	//extract fixed values
+	//Extract fixed values
 
 	List fixed_List = model_Lists["fixed_List"];
-	double z_mean_fixed = fixed_List["z_mean_fixed"];
-	double z_sd_fixed = fixed_List["z_sd_fixed"];
 	double z_constant_fixed = fixed_List["z_constant_fixed"];
 
-	//other stuff
+	//Other stuff
 
 	NumericVector x1 = model["x1"];
 
-	DataFrame data = model["dataframe"];
+	DataFrame data = as_data_frame(model["dataframe"]);
 	StringVector data_names = data.names();
 
 	NumericVector p_values = results(_, 3);
@@ -988,7 +980,7 @@ void print_summary_hpaBinary(List x)
 	}
 
 	Rprintf("%s", "---\n");
-	Rprintf("%s", "Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1\n");
+	Rprintf("%s", "Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n");
 
 	Rprintf("%s", "--------------------------------------------------------------\n");
 }
@@ -1008,7 +1000,7 @@ void plot_hpaBinary(List x) {
 	Rcpp::Environment graphics_env("package:graphics");
 	Rcpp::Function plot_R = graphics_env["plot"];
 
-	//load data from the model
+	//Load data from the model
 
 	NumericVector pol_coefficients = model["pol_coefficients"];
 	NumericVector pol_degrees = model["pol_degrees"];
@@ -1016,7 +1008,7 @@ void plot_hpaBinary(List x) {
 	NumericVector mean = model["mean"];
 	NumericVector sd = model["sd"];
 
-	//adjust precision
+	//Adjust precision
 
 	double errors_exp = model["errors_exp"];
 	double errors_var = model["errors_var"];
@@ -1038,7 +1030,7 @@ void plot_hpaBinary(List x) {
 
 	NumericVector x_vec = x_matr(_, 0);
 
-	//calculate densities
+	//Calculate densities
 
 	NumericVector den = dhpa(x_matr,
 		pol_coefficients, pol_degrees,
@@ -1049,7 +1041,7 @@ void plot_hpaBinary(List x) {
 	double den_min = min(den);
 	double den_max = max(den);
 
-	//build the plot
+	//Build the plot
 
 	plot_R(Rcpp::_["x"] = x_vec, Rcpp::_["y"] = den,
 		Rcpp::_["xlim"] = NumericVector::create(plot_min, plot_max),

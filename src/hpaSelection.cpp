@@ -768,6 +768,9 @@ List predict_hpaSelection(List object, DataFrame newdata = R_NilValue, std::stri
 	Rcpp::Function na_omit_R = stats_env["na.omit"];
 	Rcpp::Function na_pass = stats_env["na.pass"];
 
+	Rcpp::Environment base_env("package:base");
+	Rcpp::Function as_data_frame = base_env["as.data.frame"];
+
 	//Working with Data
 
 	List Newey = model["Newey"];
@@ -785,13 +788,15 @@ List predict_hpaSelection(List object, DataFrame newdata = R_NilValue, std::stri
 	Rcpp::Formula selection = model["selection_formula"];
 	Rcpp::Formula outcome = model["outcome_formula"];
 
-	DataFrame data = newdata;
+	DataFrame data;
 
 	if (newdata.size() == 0)
 	{
 		List data_List = model["data_List"];
-		newdata = data_List["dataframe"];
+		newdata = as_data_frame(data_List["dataframe"]);
 	}
+
+	data = newdata;
 
 	//Extract dataframe from formula
 
@@ -1028,6 +1033,7 @@ void print_summary_hpaSelection(List x) {
 	Rcpp::Function as_table = base_env["as.table"];
 	Rcpp::Function cbind = base_env["cbind"];
 	Rcpp::Function round_R = base_env["round"];
+	Rcpp::Function as_data_frame = base_env["as.data.frame"];
 
 	NumericMatrix results = model["results"];
 	results = round_R(Rcpp::_["x"] = results, Rcpp::_["digits"] = 5);
@@ -1047,8 +1053,8 @@ void print_summary_hpaSelection(List x) {
 
 	List data_List = model["data_List"];
 
-	DataFrame data = data_List["dataframe"];
-	DataFrame data_z = data_List["data_z"];
+	DataFrame data = as_data_frame(data_List["dataframe"]);
+	DataFrame data_z = as_data_frame(data_List["data_z"]);
 	StringVector data_names_z = data_z.names();
 	NumericVector z = data_z[0];
 	int n_censored = sum(z);
